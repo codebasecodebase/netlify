@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
   },
   experimental:{
     optimizeCss: true,
-    inlineCss: true,
   },
 };
 export default nextConfig;
