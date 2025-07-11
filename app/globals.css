@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+.pulse__button__rings_1,
+.pulse__button__rings_2,
+.pulse__button__rings_3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1.5px solid #00ff64;
+  border-radius: 50%;
+  animation: pulseAnimation 2.5s infinite;
+  z-index: -1;
+  /* Оптимизация рендеринга */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+/* Убираем индивидуальные задержки */
+@keyframes pulseAnimation {
+  0% { 
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% { 
+    opacity: 0.5;
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(var(--scale-end, 1.3));
+  }
+}
+
+/* Индивидуальные масштабы через CSS переменные */
+.pulse__button__rings_1 { --scale-end: 1.3; }
+.pulse__button__rings_2 { --scale-end: 1.5; }
+.pulse__button__rings_3 { --scale-end: 1.7; }
+
+
+
+
+
+@keyframes float-slow {
+  0%, 100% {
+      transform: translate3d(0, 20px, 0);
+  }
+  50% {
+      transform: translate3d(0, -20px, 0);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.animate-float-slow {
+  animation: float-slow 5s ease-in-out infinite;
+  z-index: -10;
+}
+
+.figure-color {
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.figure-color::after,
+.figure-color::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #5500ff, #00ff1a);
+  bottom: -5px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+.figure-color::after {
+  transform-origin: left;  /* Будет расширяться слева */
+}
+
+.figure-color::before {
+  transform-origin: right; /* Будет расширяться справа */
+  top: -5px;
+}
+
+.figure-color:hover::after,
+.figure-color:hover::before {
+  transform: scaleX(1);
+}

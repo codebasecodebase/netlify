@@ -1,0 +1,224 @@
+$base-font-size: 16;
+$min-viewport: 320;
+$max-viewport: 1500;
+
+:root {
+  --container-width: 1500px;
+  --container-offset: 16px;
+  --min-viewport: #{$min-viewport}px;
+  --max-viewport: #{$max-viewport}px;
+  --base-font-size: #{$base-font-size}px;
+}
+
+
+@mixin responsive-font($min-size, $max-size) {
+  font-size: clamp(#{calc($min-size / $base-font-size)}rem,
+    calc((100vw - 320px) / (1500 - 320) * (#{$max-size} - #{$min-size}) + #{$min-size}px),
+    #{calc($max-size / $base-font-size)}rem);
+}
+
+@mixin responsive-padding-block($min-size, $max-size) {
+  padding-top: clamp(#{calc($min-size / $base-font-size)}rem,
+    calc((100vw - 320px) / (1500 - 320) * (#{$max-size} - #{$min-size}) + #{$min-size}px),
+    #{calc($max-size / $base-font-size)}rem);
+  padding-bottom: clamp(#{calc($min-size / $base-font-size)}rem,
+    calc((100vw - 320px) / (1500 - 320) * (#{$max-size} - #{$min-size}) + #{$min-size}px),
+    #{calc($max-size / $base-font-size)}rem);
+}
+
+@mixin responsive-margin-text($min-size, $max-size) {
+  margin-top: clamp(#{calc($min-size / $base-font-size)}rem,
+    calc((100vw - 320px) / (1500 - 320) * (#{$max-size} - #{$min-size}) + #{$min-size}px),
+    #{calc($max-size / $base-font-size)}rem);
+  margin-bottom: clamp(#{calc($min-size / $base-font-size)}rem,
+    calc((100vw - 320px) / (1500 - 320) * (#{$max-size} - #{$min-size}) + #{$min-size}px),
+    #{calc($max-size / $base-font-size)}rem);
+}
+
+.section__responsive-padding {
+  @include responsive-padding-block(40, 80);
+}
+
+.h1__slider-title_responsive-font {
+  @include responsive-font(16, 70);
+}
+
+.h2__slider-title_responsive-font {
+  @include responsive-font(16, 70);
+  //@include responsive-padding-block(40, 80);
+}
+
+.btn__slider-title_responsive-font {
+  @include responsive-font(10, 19);
+  //@include responsive-padding-block(40, 80);
+}
+
+
+
+.h2__section-title_responsive-font {
+  font-weight: 700;
+  @include responsive-font(20, 40);
+  @include responsive-margin-text(20, 40);
+}
+
+.h3__section-title_responsive-font {
+  @include responsive-font(12, 28);
+}
+
+.li__section_responsive-font {
+  @include responsive-font(12, 21);
+}
+
+
+.h4__category-section_responsive-font {
+  @include responsive-font(18, 30);
+  font-weight: 600;
+}
+
+.h5__category-section_responsive-font {
+  @include responsive-font(13, 20);
+  font-weight: 600;
+}
+
+.h4__about-section_responsive-font {
+  @include responsive-font(18, 30);
+  font-weight: 600;
+}
+
+.h4__advantages-section_responsive-font {
+  @include responsive-font(17, 33);
+  font-weight: 600;
+}
+
+.p__advantages-section_responsive-font {
+  @include responsive-font(13, 24);
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+.buttons {
+  text-align: center;
+  border-radius: 30px;
+  position: relative;
+
+  &:before,
+  &:after {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+$cyan: #0588a9;
+$dark: #FFFFFF;
+$borderW: 2px;
+
+.blob-btn {
+  $numOfBlobs: 4;
+  z-index: 1;
+  position: relative;
+  padding: 20px 46px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  transition: color 0.5s;
+  cursor: pointer;
+  border-radius: 30px;
+
+  &:before {
+    content: "";
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:after {
+    content: "";
+    z-index: -2;
+    position: absolute;
+    left: $borderW*1.5;
+    top: $borderW*1.5;
+    width: 100%;
+    height: 100%;
+
+    transition: all 0.3s 0.2s;
+    border-radius: 30px;
+  }
+
+  &:hover {
+    color: $dark;
+    border-radius: 30px;
+
+    &:after {
+      transition: all 0.3s;
+      left: 0;
+      top: 0;
+      border-radius: 30px;
+    }
+  }
+
+  &__inner {
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: linear-gradient(to top, #5457c1, #449a8d);
+  }
+
+  // additional container created, because in FF blobs are breaking overflow:hidden of element with svg gooey filter
+  &__blobs {
+    position: relative;
+    display: block;
+    height: 100%;
+    filter: url('#goo');
+  }
+
+  &__blob {
+    position: absolute;
+    top: $borderW;
+    width: 100% / $numOfBlobs;
+    height: 100%;
+    background: $cyan;
+    border-radius: 100%;
+    transform: translate3d(0, 150%, 0) scale(1.9);
+    transition: transform 0.45s;
+
+    @supports(filter: url('#goo')) {
+      transform: translate3d(0, 150%, 0) scale(1.9);
+    }
+
+    @for $i from 1 through $numOfBlobs {
+      &:nth-child(#{$i}) {
+        left: ($i - 1) * (120% / $numOfBlobs);
+        transition-delay: ($i - 1) * 0.08s;
+      }
+    }
+
+    .blob-btn:hover & {
+      transform: translateZ(0) scale(1.9);
+
+      @supports(filter: url('#goo')) {
+        transform: translateZ(0) scale(1.9);
+      }
+    }
+  }
+
+}

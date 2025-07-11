@@ -1,0 +1,376 @@
+'use client';
+import '../../variables.scss';
+import Image from 'next/image';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
+
+export default function CategorySection() {
+    // Создаем рефы для всех canvas (по количеству блоков)
+    const canvasRefs = Array.from({ length: 12 }, () => useRef<HTMLCanvasElement>(null));
+    const animationIdsRef = useRef<Array<number | null>>(Array(12).fill(null));
+    const animationDataRef = useRef<Array<{
+        drops: number[];
+        frame: number;
+        columns: number;
+        width: number;
+        height: number;
+    } | null>>(Array(12).fill(null));
+    
+    // Состояние для отслеживания активных анимаций
+    const [activeAnimations, setActiveAnimations] = useState<boolean[]>(Array(12).fill(false));
+
+    // Функция запуска анимации для конкретного индекса
+    const startAnimation = useCallback((index: number) => {
+        const canvas = canvasRefs[index].current;
+        if (!canvas) return;
+
+        const container = canvas.parentElement;
+        if (!container) return;
+
+        // Получаем размеры контейнера
+        const displayWidth = container.clientWidth;
+        const displayHeight = container.clientHeight;
+
+        // Устанавливаем размеры canvas
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // Параметры анимации
+        const letters = 'АァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ'.repeat(6).split('');
+        const fontSize = 18;
+        const columns = Math.floor(displayWidth / fontSize);
+
+        // Используем существующие данные или создаем новые
+        let drops: number[];
+        let frame = 0;
+
+        if (animationDataRef.current[index]) {
+            // Восстанавливаем из сохраненных данных
+            drops = animationDataRef.current[index]!.drops;
+            frame = animationDataRef.current[index]!.frame;
+        } else {
+            // Создаем новые данные
+            drops = Array.from(
+                { length: columns },
+                () => Math.random() * displayHeight / fontSize
+            );
+        }
+
+        // Останавливаем предыдущую анимацию, если была
+        if (animationIdsRef.current[index] !== null) {
+            cancelAnimationFrame(animationIdsRef.current[index]!);
+        }
+
+        const draw = () => {
+            ctx.clearRect(0, 0, displayWidth, displayHeight);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, displayWidth, displayHeight);
+            ctx.font = `${fontSize}px monospace`;
+            ctx.fillStyle = '#0f0';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > displayHeight && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                if (frame % 5 === 0) {
+                    drops[i]++;
+                }
+            }
+
+            frame++;
+
+            // Сохраняем состояние анимации
+            animationDataRef.current[index] = {
+                drops,
+                frame,
+                columns,
+                width: displayWidth,
+                height: displayHeight
+            };
+
+            animationIdsRef.current[index] = requestAnimationFrame(draw);
+        };
+
+        // Устанавливаем начальную прозрачность
+        canvas.style.opacity = '0';
+        canvas.style.transition = 'opacity 0.5s ease-in-out';
+        
+        // Запускаем анимацию
+        animationIdsRef.current[index] = requestAnimationFrame(draw);
+        
+        // Плавно увеличиваем opacity
+        setTimeout(() => {
+            if (canvas) {
+                canvas.style.opacity = '0.2';
+            }
+        }, 10);
+        
+        // Обновляем состояние активности
+        setActiveAnimations(prev => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+        });
+    }, []);
+
+    // Функция остановки анимации
+    const stopAnimation = useCallback((index: number) => {
+        const canvas = canvasRefs[index].current;
+        if (!canvas) return;
+
+        // Плавно уменьшаем opacity
+        canvas.style.transition = 'opacity 0.5s ease-in-out';
+        canvas.style.opacity = '0';
+
+        // Останавливаем анимацию после завершения перехода
+        setTimeout(() => {
+            if (animationIdsRef.current[index] !== null) {
+                cancelAnimationFrame(animationIdsRef.current[index]!);
+                animationIdsRef.current[index] = null;
+            }
+        }, 500); // Должно соответствовать длительности перехода
+
+        // Обновляем состояние активности
+        setActiveAnimations(prev => {
+            const newState = [...prev];
+            newState[index] = false;
+            return newState;
+        });
+    }, []);
+
+    // Обработчик ресайза
+    useEffect(() => {
+        let resizeTimeout: NodeJS.Timeout;
+
+        const handleResize = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Перезапускаем активные анимации
+                for (let i = 0; i < canvasRefs.length; i++) {
+                    if (activeAnimations[i]) {
+                        startAnimation(i);
+                    }
+                }
+            }, 100);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            clearTimeout(resizeTimeout);
+
+            // Останавливаем все анимации
+            for (let i = 0; i < canvasRefs.length; i++) {
+                if (animationIdsRef.current[i] !== null) {
+                    cancelAnimationFrame(animationIdsRef.current[i]!);
+                }
+            }
+        };
+    }, [startAnimation, activeAnimations]);
+
+    function isTouchDevice(): boolean {
+        if (typeof window === "undefined") return false;
+        return (
+            'ontouchstart' in window ||
+            navigator.maxTouchPoints > 0 ||
+            window.matchMedia('(pointer: coarse)').matches
+        );
+    };
+
+    // Внутри компонента:
+    const tapCountRef = useRef(0);
+    const handleTouchClick = (duration: number = 1500) => {
+        if (!isTouchDevice()) {
+            smoothScrollToMap(duration);
+            return;
+        }
+        tapCountRef.current += 1;
+        if (tapCountRef.current === 2) {
+            smoothScrollToMap(duration);
+            tapCountRef.current = 0;
+        }
+        // Можно добавить таймер для сброса tapCountRef.current
+    };
+
+    function smoothScrollToMap(duration: number = 1500): void {
+        const target = document.getElementById('map-section');
+        if (!target) return;
+        const start = window.scrollY;
+        const end = target.getBoundingClientRect().top + window.scrollY;
+        const change = end - start;
+        const startTime = performance.now();
+
+        function easeInOutCubic(t: number): number {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function animateScroll(currentTime: number): void {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutCubic(progress);
+            window.scrollTo(0, start + change * easedProgress);
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            }
+        }
+        requestAnimationFrame(animateScroll);
+    }
+
+    // Данные для блоков
+    const categories = [
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/camera.jpg",
+            title: "Системы видеонаблюдения",
+            subtitle: "(TRASSIR, Dahua, EZ-IP, Tiandy, Hikvision, HiWatch, Ezviz, Uniview)",
+            className: "category-image-main"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/pvem.jpg",
+            title: "Компьютеры \"ПЭВМ\" (Производство РБ)",
+            subtitle: "Собираем компьютеры любой конфигурации",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/monitor.jpg",
+            title: "Мониторы, телевизоры",
+            subtitle: "",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/komplektuyushie.jpg",
+            title: "Компьютерные комплектующие",
+            subtitle: "",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/nout.jpg",
+            title: "Ноутбуки",
+            subtitle: "(Asus, Lenovo, HP, Acer, Dell, MSI)",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/printer.jpg",
+            title: "Принтеры МФУ",
+            subtitle: "Canon, HP, Kyocera, Pantum",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/server.jpg",
+            title: "Сервера (Производство РБ)",
+            subtitle: "а так же HP, Dell.",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/monoblok.jpg",
+            title: "Моноблок",
+            subtitle: "(Производство РБ), а так же ASUS, Lenovo, Acer, HP.",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/rashodnie.jpg",
+            title: "Расходные материалы для печатной техники",
+            subtitle: "(картриджи, тонер, фотобарабаны и т.д.)",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/setevoe.jpg",
+            title: "Интерактивные доски, интерактивные панели",
+            subtitle: "",
+            className: "category-image-row"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/aksesuari.jpg",
+            title: "Компьютерная переферия",
+            subtitle: "(Мыши, клавиатуры, колонки, web-камеры и т.д)",
+            className: "category-image-row-bottom"
+        },
+        {
+            img: "https://kompunity.by/wp-content/uploads/2023/07/zkteco.jpg",
+            title: "Турникеты TRASSIR, ZKTeco",
+            subtitle: "(Серия Green Label) (Биометрическая идентификация) (Контроль доступа) (Умный офис)",
+            className: "category-image-row-bottom"
+        }
+    ];
+
+    return (
+        <section className="section__responsive-padding relative" style={{ background: '#f9f9f9' }}>
+            <div className="container text-center">
+                <h2 className="h2__section-title_responsive-font">ОБОРУДОВАНИЕ</h2>
+                <h3 className="h3__section-title_responsive-font">Мы поставляем следующее оборудование</h3>
+                <div className="text-center flex justify-center items-center relative">
+                    <h3 className="h3__section-title_responsive-font mr-[30px] figure-color italic" style={{ color: '#2f4a99' }}>ТОП ДИСТРИБЬЮТОР БРЕНДА</h3>
+                    <Image
+                        src="https://kompunity.by/wp-content/uploads/2023/08/trassir.png"
+                        alt="Slide"
+                        width={285}
+                        height={285}
+                        priority
+                        quality={100}
+                        sizes="100%"
+                        className="ml-[20px] z-10"
+                    />
+                </div>
+
+                <div className="category-section__images">
+                    {categories.map((category, index) => (
+                        <picture
+                            key={index}
+                            className={category.className}
+                            style={{ position: 'relative' }}
+                            onMouseEnter={() => startAnimation(index)}
+                            onMouseLeave={() => stopAnimation(index)}
+                        >
+                            <Image
+                                src={category.img}
+                                alt={`Slide ${index + 1}`}
+                                width={1500}
+                                height={1500}
+                                priority
+                                quality={100}
+                                sizes="100%"
+                            />
+                            <div className='category-text'>
+                                <h4
+                                    className="h4__category-section_responsive-font"
+                                    onClick={() => handleTouchClick(4000)}
+                                >
+                                    {category.title}
+                                </h4>
+                                {category.subtitle && (
+                                    <h5
+                                        className="h5__category-section_responsive-font"
+                                        onClick={() => handleTouchClick(4000)}
+                                    >
+                                        {category.subtitle}
+                                    </h5>
+                                )}
+                            </div>
+                            <canvas
+                                ref={canvasRefs[index]}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    zIndex: 0,
+                                    pointerEvents: 'none',
+                                    opacity: 0 // Начальная прозрачность
+                                }}
+                            />
+                        </picture>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}

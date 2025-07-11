@@ -1,0 +1,95 @@
+ .embla {
+    max-width: 100%;
+    margin: auto;
+    --slide-height: auto;
+    --slide-spacing: 1%;
+    --slide-size: 100%;
+    --slide-spacing-sm: 20px;
+    --slide-size-sm: 50%;
+    --slide-spacing-lg: 20px;
+    --slide-size-lg: calc(100% / 5);
+}
+
+.embla-height{
+    height: 30vw;
+    max-height: 300px;
+    min-height: 150px;
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+
+.embla__container {
+    backface-visibility: hidden;
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+
+@media (min-width: 750px) {
+    .embla__container {
+        margin-left: calc(var(--slide-spacing-sm) * -1);
+    }
+}
+
+@media (min-width: 1200px) {
+    .embla__container {
+        margin-left: calc(var(--slide-spacing-lg) * -1);
+    }
+}
+
+.embla__slide {
+    min-width: 0;
+    flex: 0 0 var(--slide-size);
+    padding-left: var(--slide-spacing);
+}
+
+@media (min-width: 750px) {
+    .embla__slide {
+        flex: 0 0 var(--slide-size-sm);
+        padding-left: var(--slide-spacing-sm);
+    }
+}
+
+@media (min-width: 1200px) {
+    .embla__slide {
+        flex: 0 0 var(--slide-size-lg);
+        padding-left: var(--slide-spacing-lg);
+    }
+}
+
+.embla__slide__number {
+    box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+    border-radius: 1.8rem;
+    font-size: 4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--slide-height);
+    user-select: none;
+}
+
+
+.neon-circle-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 4px solid #5e14ff79;
+    box-shadow: 0 0 40px 10px #5a14ff63, 0 0 80px 20px #8614ff44;
+    animation: neon-rotate 3s linear infinite, neon-pulse 1.5s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+  @keyframes neon-rotate {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes neon-pulse {
+    0% { box-shadow: 0 0 40px 10px #7214ff88, 0 0 80px 20px #7214ff44; }
+    100% { box-shadow: 0 0 80px 30px #6e14ff72, 0 0 120px 40px #8914ff44; }
+  }
