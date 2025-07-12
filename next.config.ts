@@ -8,8 +8,16 @@ const nextConfig: NextConfig = {
     
     deviceSizes: [300, 320,350,430,500,640, 750, 828, 1080, 1200, 1280, 1550, 1920, 2048, 2500, 3000, 3840],
   },
-  experimental:{
-    optimizeCss: true,
+  experimental: {
+    ppr: true,         // Гибридный рендеринг
+    inlineCss: true,    // Инлайнинг CSS (Pages Router)
+    reactCompiler: true,
+    optimizeCss: true,  // Оптимизация CSS
   },
+  compiler: {
+    styledComponents: true, // Для CSS-in-JS
+  },
+  // Требуется для ppr
+  output: 'standalone', 
 };
 export default nextConfig;
