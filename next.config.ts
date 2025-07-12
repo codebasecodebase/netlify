@@ -11,13 +11,13 @@ const nextConfig: NextConfig = {
   experimental: {
     //ppr: true,         // Гибридный рендеринг
     inlineCss: true,    // Инлайнинг CSS (Pages Router)
-    reactCompiler: true,
+    //reactCompiler: true,
     optimizeCss: true,  // Оптимизация CSS
   },
-  compiler: {
-    styledComponents: true, // Для CSS-in-JS
-  },
+  //compiler: {
+    //styledComponents: true, // Для CSS-in-JS
+  //},
   // Требуется для ppr
-  output: 'standalone', 
+  //output: 'standalone', 
 };
 export default nextConfig;
