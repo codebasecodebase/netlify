@@ -264,7 +264,8 @@ export default function ReactHookForm() {
                 src="/gggyrate.svg" 
                 alt="background" 
                 className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-25" 
-                style={{ zIndex: 0 }} 
+                style={{ zIndex: 0 }}
+                loading="lazy"
             />
             
             <div className="container w-fulll text-center">
