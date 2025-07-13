@@ -294,10 +294,10 @@ export default function CategorySection() {
                         alt="Slide"
                         width={285}
                         height={285}
-                        priority
                         quality={100}
                         sizes="100%"
                         className="ml-[20px] z-10"
+                        loading="lazy"
                     />
                 </div>
 
@@ -315,7 +315,6 @@ export default function CategorySection() {
                                 alt={`Slide ${index + 1}`}
                                 width={1500}
                                 height={1500}
-                                priority
                                 quality={100}
                                 sizes="100%"
                                 loading="lazy"

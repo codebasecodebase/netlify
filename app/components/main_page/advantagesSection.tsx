@@ -207,7 +207,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className="hover:rotate-x-spin"
@@ -225,7 +224,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -243,7 +241,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -261,7 +258,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -279,7 +275,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -297,7 +292,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -315,7 +309,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -333,7 +326,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""
@@ -351,7 +343,6 @@ export default function AdventagesSection() {
                             alt="Slide"
                             width={170}
                             height={200}
-                            priority
                             quality={100}
                             sizes="100%"
                             className=""

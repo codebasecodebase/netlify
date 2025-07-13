@@ -131,7 +131,7 @@ export default function PartnerSection() {
                   src={src}
                   alt={`Slide ${index + 1}`}
                   fill
-                  priority={index === 0}
+                  //priority={index === 0}
                   quality={100}
                   sizes="100vw"
                   className="object-cover select-none outline-none touch-none"

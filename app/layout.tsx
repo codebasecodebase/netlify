@@ -33,7 +33,7 @@ export default function RootLayout({
                 alt="Next.js logo"
                 width={60}
                 height={35}
-                priority
+                priority={true}
               />
             </Link>
 
