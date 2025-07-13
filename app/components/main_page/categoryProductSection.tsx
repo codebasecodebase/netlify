@@ -318,6 +318,7 @@ export default function CategorySection() {
                                 priority
                                 quality={100}
                                 sizes="100%"
+                                loading="lazy"
                             />
                             <div className='category-text'>
                                 <h4

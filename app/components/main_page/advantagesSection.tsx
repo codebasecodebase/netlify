@@ -211,6 +211,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className="hover:rotate-x-spin"
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Склад
@@ -228,6 +229,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Доставка
@@ -245,6 +247,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Опыт работы
@@ -262,6 +265,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Уникальные решения
@@ -279,6 +283,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Низкие цены
@@ -296,6 +301,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Официальные поставки
@@ -313,6 +319,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Гарантия
@@ -330,6 +337,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Индивидуальный подход
@@ -347,6 +355,7 @@ export default function AdventagesSection() {
                             quality={100}
                             sizes="100%"
                             className=""
+                            loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Продвинутая экосистема

@@ -16,9 +16,8 @@ export default function HeroSection() {
             <Image src="/laptop.avif"
                 alt="Slide 1"
                 fill
-                priority
+                priority={true}	
                 quality={100}
-                fetchPriority='high'
                 sizes="100vw"
                 className="object-cover w-full h-full"
             />

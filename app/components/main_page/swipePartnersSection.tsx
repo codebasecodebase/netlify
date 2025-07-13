@@ -136,6 +136,7 @@ export default function PartnerSection() {
                   sizes="100vw"
                   className="object-cover select-none outline-none touch-none"
                   onLoad={() => setImagesLoaded((v) => v + 1)}
+                  loading="lazy"	
                 />
                 <h1  className="z-2 absolute text-white text-4xl">{index + 1}</h1>
               </div>
