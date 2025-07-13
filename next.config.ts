@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     inlineCss: true,    // Инлайнинг CSS (Pages Router)
     //reactCompiler: true,
     optimizeCss: true,  // Оптимизация CSS
+    reactCompiler: true,
   },
   //compiler: {
     //styledComponents: true, // Для CSS-in-JS
