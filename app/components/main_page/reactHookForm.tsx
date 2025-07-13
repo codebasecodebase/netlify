@@ -503,6 +503,7 @@ export default function ReactHookForm() {
                                         quality={100}
                                         sizes="100vw"
                                         className="object-cover select-none outline-none touch-none"
+                                        loading="lazy"
                                     />
                                 </a>
                                 <a href="https://t.me/kompunity_by">
@@ -514,6 +515,7 @@ export default function ReactHookForm() {
                                         quality={100}
                                         sizes="100vw"
                                         className="object-cover select-none outline-none touch-none"
+                                        loading="lazy"
                                     />
                                 </a>
                                 <a href="https://instagram.com/kompunity.by">
@@ -525,6 +527,7 @@ export default function ReactHookForm() {
                                         quality={100}
                                         sizes="100vw"
                                         className="object-cover select-none outline-none touch-none"
+                                        loading="lazy"
                                     />
                                 </a>
                             </div>

@@ -72,9 +72,9 @@ const OptimizedAnimatedImageContactFormBackground = () => {
         alt="Floating animation"
         width={400}
         height={400}
-        priority
         quality={100}
         sizes="100vw"
+        loading="lazy"
       />
     </div>
   );
