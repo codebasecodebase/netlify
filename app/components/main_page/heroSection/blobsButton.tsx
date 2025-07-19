@@ -6,6 +6,8 @@ interface BlobsButtonProps {
     text?: string;
 }
 
+import './style_blobsButton.scss'
+
 export default function BlobsButton({ text }: BlobsButtonProps) {
     return (
         <div className="buttons"

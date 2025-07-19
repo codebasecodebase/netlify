@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 
-import './style.scss'
+import './style_waryText.scss'
+
 
 export default function WavyText({ text }: { text: string; delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
