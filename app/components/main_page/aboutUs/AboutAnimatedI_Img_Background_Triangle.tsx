@@ -25,17 +25,16 @@ export default function AnimatedTriangele() {
 
     // Инициализация фигур
     useEffect(() => {
-        setRects(Array.from({ length: 10 }).map(() => ({
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            zIndex: Math.random() * 100,
-            size: 50 + Math.random() * 150,
-            baseRotation: Math.random() * 360,
-            rotation: 0,
-            scale: 1,
-            scaleDir: Math.random() > 0.5 ? 1 : -1,
-            rotateDir: Math.random() > 0.5 ? 1 : -1,
-        })));
+        const fixedRects: Rect[] = [
+            { x: 10, y: 20, zIndex: 20, size: 200, baseRotation: 0, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
+            { x: 30, y: 40, zIndex: 30, size: 350, baseRotation: 45, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
+            { x: 50, y: 60, zIndex: 40, size: 180, baseRotation: 90, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
+            { x: 70, y: 80, zIndex: 50, size: 320, baseRotation: 135, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
+            { x: 90, y: 10, zIndex: 60, size: 400, baseRotation: 180, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
+            // Добавьте больше объектов по необходимости (до 10 или больше)
+            // Пример: { x: 20, y: 30, zIndex: 60, size: 90, baseRotation: 225, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
+        ];
+        setRects(fixedRects);
     }, []);
 
     // Функция анимации
