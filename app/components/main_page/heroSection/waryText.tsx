@@ -31,8 +31,7 @@ export default function WavyText({ text }: { text: string; delay?: number }) {
     return (
         <div 
             ref={containerRef}
-            className="wavy-text-container" 
-            style={{ display: 'inline-block' }}
+            className="wavy-text-container flex" 
         >
             {text.split('').map((char, index) => (
                 <span

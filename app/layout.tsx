@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
+    <html lang="en" className={montserrat.className}>
       <body>
         <div className="fixed top-0 left-0 w-full z-50 bg-white">
         <header className="z-50 bg-white container flex items-center justify-between">
