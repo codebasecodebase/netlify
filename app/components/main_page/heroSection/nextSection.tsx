@@ -129,36 +129,6 @@ export default function NextSection() {
                     />
                 </svg>
             </div>
-            <style jsx>{`
-                .animate-bounce-fade {
-                    animation: bounceFade 2s infinite;
-                }
-                @keyframes bounceFade {
-                    0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-                    10%  { opacity: 1; }
-                    50%  { transform: translate3d(0, 20px, 0); opacity: 1; }
-                    100% { transform: translate3d(0, 0, 0); opacity: 0; }
-                }
-                .circle-timer {
-                    animation: circleTimerAnim 2s linear infinite;
-                    will-change: transform, stroke-dashoffset;
-                }
-                .group:hover .circle-timer {
-                    stroke: url(#circleStatic) !important;
-                    animation-play-state: paused;
-                }
-                .group:hover path {
-                    stroke: url(#arrowStatic) !important;
-                }
-                @keyframes circleTimerAnim {
-                    0% {
-                        stroke-dashoffset: ${2 * Math.PI * 28};
-                    }
-                    100% {
-                        stroke-dashoffset: 0;
-                    }
-                }
-            `}</style>
         </div>
     );
 }
