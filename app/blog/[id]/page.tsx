@@ -10,7 +10,7 @@ interface Post {
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
-export const revalidate = 10
+export const revalidate = 100
 
 // We'll prerender only the params from `generateStaticParams` at build time.
 // If a request comes in for a path that hasn't been generated,
@@ -19,7 +19,7 @@ export const dynamicParams = true // or false, to 404 on unknown paths
 
 export async function generateStaticParams() {
     const posts: Post[] = await fetch('https://68206faf259dad2655ac8cff.mockapi.io/posts', {
-        next: { revalidate: 10 } // Кэшируем на 1 час
+        next: { revalidate: 100 } // Кэшируем на 1 час
     }).then(res => res.json());
 
     return posts.map(post => ({

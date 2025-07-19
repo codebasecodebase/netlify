@@ -1,0 +1,95 @@
+.char {
+    animation-play-state: paused;
+}
+
+.char.animate {
+    animation: wave 3s ease-in-out infinite;
+    animation-play-state: running;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate3d(0, -10px, 0) rotate(3deg);
+    }
+
+    50% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    75% {
+        transform: translate3d(0, -5px, 0) rotate(-2deg);
+    }
+}
+
+
+
+
+
+
+
+
+.pulse-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.pulse-container.paused .ring {
+    animation-play-state: paused !important;
+}
+
+.ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1.5px solid #00ff64;
+    border-radius: 50%;
+    animation: pulseAnimation 2.5s infinite;
+    z-index: -1;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    pointer-events: none;
+}
+
+.ring1 {
+    --scale-end: 1.3;
+}
+
+.ring2 {
+    --scale-end: 1.5;
+}
+
+.ring3 {
+    --scale-end: 1.7;
+}
+
+@keyframes pulseAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(var(--scale-end, 1.3));
+    }
+}
+
+
+

@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 
+import './style.scss'
+
 export default function WavyText({ text }: { text: string; delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -46,29 +48,6 @@ export default function WavyText({ text }: { text: string; delay?: number }) {
                     {char === ' ' ? '\u00A0' : char}
                 </span>
             ))}
-            <style jsx>{`
-                .char {
-                    animation-play-state: paused;
-                }
-                .char.animate {
-                    animation: wave 3s ease-in-out infinite;
-                    animation-play-state: running;
-                }
-                @keyframes wave {
-                    0%, 100% { 
-                        transform: translate3d(0, 0, 0) rotate(0deg); 
-                    }
-                    25% { 
-                        transform: translate3d(0, -10px, 0) rotate(3deg); 
-                    }
-                    50% { 
-                        transform: translate3d(0, 0, 0) rotate(0deg); 
-                    }
-                    75% { 
-                        transform: translate3d(0, -5px, 0) rotate(-2deg); 
-                    }
-                }
-            `}</style>
         </div>
     );
 }

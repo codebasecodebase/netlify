@@ -26,7 +26,7 @@ export default async function Blog({
   
   // Загружаем все посты один раз при сборке
   const posts: Post[] = await fetch('https://68206faf259dad2655ac8cff.mockapi.io/posts', {
-    next: { tags: ['posts'], revalidate: 10} // Ревалидация раз в час
+    next: { tags: ['posts'], revalidate: 100} // Ревалидация раз в час
   }).then((res) => res.json());
   
   const postsPerPage = 10;
