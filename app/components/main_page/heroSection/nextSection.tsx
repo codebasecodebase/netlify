@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 
+import './style.scss'
+
 declare global {
   interface SVGSVGElement {
     pauseAnimations(): void;

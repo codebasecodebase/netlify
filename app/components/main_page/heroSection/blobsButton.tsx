@@ -1,5 +1,7 @@
 'use client';
 
+import './style.scss'
+
 interface BlobsButtonProps {
     text?: string;
 }

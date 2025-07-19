@@ -2,6 +2,8 @@
 
 import { useRef, useEffect } from 'react';
 
+import './style.scss'
+
 export default function PulseRings() {
   const containerRef = useRef<HTMLDivElement>(null);
 
