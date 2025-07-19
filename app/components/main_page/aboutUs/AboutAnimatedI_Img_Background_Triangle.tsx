@@ -12,6 +12,8 @@ export default function AnimatedTriangele() {
         scale: number;
         scaleDir: number;
         rotateDir: number;
+        opacity: number;  // Новое: текущая прозрачность
+        phase: number;    // Новое: фазовый сдвиг для последовательной анимации
     };
 
     const [rects, setRects] = useState<Rect[]>([]);
@@ -25,16 +27,21 @@ export default function AnimatedTriangele() {
 
     // Инициализация фигур
     useEffect(() => {
-        const fixedRects: Rect[] = [
+        const fixedRectsBase: Omit<Rect, 'opacity' | 'phase'>[] = [
             { x: 10, y: 20, zIndex: 20, size: 200, baseRotation: 0, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
             { x: 50, y: 25, zIndex: 30, size: 150, baseRotation: 45, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
             { x: 30, y: 30, zIndex: 30, size: 350, baseRotation: 45, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
             { x: 90, y: 60, zIndex: 40, size: 180, baseRotation: 90, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
             { x: 80, y: 80, zIndex: 50, size: 320, baseRotation: 135, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
             { x: 50, y: 10, zIndex: 60, size: 400, baseRotation: 180, rotation: 0, scale: 1, scaleDir: 1, rotateDir: 1 },
-            // Добавьте больше объектов по необходимости (до 10 или больше)
-            // Пример: { x: 20, y: 30, zIndex: 60, size: 90, baseRotation: 225, rotation: 0, scale: 1, scaleDir: -1, rotateDir: -1 },
         ];
+        const num = fixedRectsBase.length;
+        const period = 2000; // Период анимации в мс
+        const fixedRects: Rect[] = fixedRectsBase.map((r, i) => ({
+            ...r,
+            opacity: 0.3,
+            phase: i * (period / num),
+        }));
         setRects(fixedRects);
     }, []);
 
@@ -49,13 +56,15 @@ export default function AnimatedTriangele() {
                         ...r, 
                         scale: newScale,
                         rotation: r.rotation + r.rotateDir * 0.2,
-                        scaleDir: r.scaleDir * -1
+                        scaleDir: r.scaleDir * -1,
+                        opacity: 0.3 + 0.2 * Math.sin((2 * Math.PI / 2000) * (time + r.phase)),  // Новое: обновление opacity
                     };
                 }
                 return { 
                     ...r, 
                     scale: newScale,
-                    rotation: r.rotation + r.rotateDir * 0.2
+                    rotation: r.rotation + r.rotateDir * 0.2,
+                    opacity: 0.3 + 0.2 * Math.sin((2 * Math.PI / 2000) * (time + r.phase)),  // Новое: обновление opacity
                 };
             }));
             lastTimeRef.current = time;
@@ -129,8 +138,8 @@ export default function AnimatedTriangele() {
                         width: `${r.size}px`,
                         height: `${r.size}px`,
                         transform: `rotate(${r.baseRotation + r.rotation}deg) scale(${r.scale})`,
-                        opacity: 0.3,
-                        transition: 'transform 0.2s',
+                        opacity: r.opacity,  // Изменено: динамическая opacity
+                        transition: 'transform 0.2s, opacity 0.2s',  // Добавлено: переход для opacity
                         willChange: 'transform, opacity'
                     }}
                     xmlns="http://www.w3.org/2000/svg"
