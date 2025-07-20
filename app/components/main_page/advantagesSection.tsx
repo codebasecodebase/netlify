@@ -198,8 +198,20 @@ export default function AdventagesSection() {
     };
 
     return (
-        <section className="section__responsive-padding overflow-hidden">
-            <div className="container text-center">
+        <section className="section__responsive-padding relative">
+            <div className="lines">
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+            </div>
+            <div className="container text-center overflow-hidden">
                 <h2 className="h2__section-title_responsive-font">НАШИ ПРЕИМУЩЕСТВА</h2>
                 <div className="advantages__section">
                     <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>

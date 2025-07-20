@@ -38,7 +38,6 @@ export default function WavyText({ text }: { text: string; delay?: number }) {
                     key={index}
                     className={`char ${isVisible ? 'animate' : ''}`}
                     style={{
-                        display: 'inline-block',
                         whiteSpace: 'pre',
                         animationDelay: `${index * 0.05}s`,
                         transformOrigin: 'bottom center',
