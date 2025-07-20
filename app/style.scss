@@ -212,6 +212,7 @@ canvas {
      overflow: hidden;
      opacity: 0.3;
      border-radius: 10px;
+     filter: blur(1);
  }
 
  .line::after {
