@@ -118,7 +118,7 @@ export default function PartnerSection() {
         />
       ))}
       
-      <h2 className="h2__section-title_responsive-font">НАШИ ПАРТНЕРЫ</h2>
+      <h2 className="h2__section-title_responsive-font z-2">НАШИ ПАРТНЕРЫ</h2>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container flex">
           {imageSources.map((src, index) => (
