@@ -212,7 +212,7 @@ export default function AdventagesSection() {
                 <div className="line"></div>
             </div>
             <div className="container text-center overflow-hidden">
-                <h2 className="h2__section-title_responsive-font">НАШИ ПРЕИМУЩЕСТВА</h2>
+                <h2 className="h2__section-title_responsive-font z-20">НАШИ ПРЕИМУЩЕСТВА</h2>
                 <div className="advantages__section">
                     <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/stock.webp"

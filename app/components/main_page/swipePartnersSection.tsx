@@ -112,7 +112,7 @@ export default function PartnerSection() {
             width: `${p.size}px`,
             height: `${p.size}px`,
             background: p.color,
-            zIndex: 10,
+            zIndex: 1,
             transform: `translate(-50%, -50%)`
           }}
         />
