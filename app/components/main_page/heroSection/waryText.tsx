@@ -1,30 +1,31 @@
 'use client';
 import React, { useEffect, useRef, useState } from "react";
-
-import './style_waryText.scss'
-
+import './style_waryText.scss';
 
 export default function WavyText({ text }: { text: string; delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        if (!containerRef.current) return;
+        
         const observer = new IntersectionObserver(
             ([entry]) => {
-                setIsVisible(entry.isIntersecting);
+                // Используем requestAnimationFrame для синхронизации с рендер-циклом
+                requestAnimationFrame(() => {
+                    setIsVisible(entry.isIntersecting);
+                });
             },
-            { threshold: 0.1 } // Срабатывает при 10% видимости
+            {
+                threshold: 0.1,
+                rootMargin: "0px 0px -100px 0px" // Оптимизация: срабатывает на 100px раньше
+            }
         );
 
-        const currentContainer = containerRef.current;
-        if (currentContainer) {
-            observer.observe(currentContainer);
-        }
+        observer.observe(containerRef.current);
 
         return () => {
-            if (currentContainer) {
-                observer.unobserve(currentContainer);
-            }
+            observer.disconnect();
         };
     }, []);
 
@@ -32,21 +33,25 @@ export default function WavyText({ text }: { text: string; delay?: number }) {
         <div 
             ref={containerRef}
             className="wavy-text-container flex" 
+            aria-label={text} // Для доступности
         >
-            {text.split('').map((char, index) => (
-                <span
-                    key={index}
-                    className={`char ${isVisible ? 'animate' : ''}`}
-                    style={{
-                        whiteSpace: 'pre',
-                        animationDelay: `${index * 0.05}s`,
-                        transformOrigin: 'bottom center',
-                        willChange: 'transform'
-                    }}
-                >
-                    {char === ' ' ? '\u00A0' : char}
-                </span>
-            ))}
+            {text.split('').map((char, index) => {
+                // Оптимизация: используем CSS variables вместо inline-стилей
+                const style = {
+                    '--delay': `${index * 50}ms`,
+                } as React.CSSProperties;
+
+                return (
+                    <span
+                        key={index}
+                        className={`char ${isVisible ? 'animate' : ''}`}
+                        style={style}
+                        aria-hidden="true" // Скрываем от скринридеров
+                    >
+                        {char === ' ' ? '\u00A0' : char}
+                    </span>
+                );
+            })}
         </div>
     );
 }

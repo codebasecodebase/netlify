@@ -1,5 +1,16 @@
+.wavy-text-container {
+    overflow: hidden; // Предотвращаем возможные артефакты
+}
+
 .char {
+    display: inline-block; // Решает проблему пробелов
     animation-play-state: paused;
+    transform-origin: bottom center;
+    will-change: transform;
+    backface-visibility: hidden; // Улучшает рендеринг анимации
+    
+    // Используем CSS variables
+    animation-delay: var(--delay, 0ms);
 }
 
 .char.animate {
@@ -8,21 +19,16 @@
 }
 
 @keyframes wave {
-
-    0%,
-    100% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
     }
-
     25% {
-        transform: translate3d(0, -10px, 0) rotate(3deg);
+        transform: translateY(-10px) rotate(3deg);
     }
-
     50% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
+        transform: translateY(0) rotate(0deg);
     }
-
     75% {
-        transform: translate3d(0, -5px, 0) rotate(-2deg);
+        transform: translateY(-5px) rotate(-2deg);
     }
 }

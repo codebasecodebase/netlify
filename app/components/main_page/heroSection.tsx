@@ -25,7 +25,7 @@ export default function HeroSection() {
             <h1 className="h1__slider-title_responsive-font  text-7xl font-bold mb-6 text-center whitespace-nowrap" style={{ textShadow: 'rgba(0, 0, 0, 0.49) 2px 2px 5px' }}>СИСТЕМЫ ВИДЕОНАБЛЮДЕНИЯ</h1>
                 <h2 className="h2__slider-title_responsive-font text-7xl mb-14 text-center" 
                     style={{ textShadow: 'rgba(0, 0, 0, 0.49) 2px 2px 5px' }}>
-                    {/*<WavyText text="Компьютерная и офисная техника" delay={2} />*/}
+                    <WavyText text="Компьютерная и офисная техника" delay={2} />
                 </h2>
                 <div className="relative">
                     <BlobsButton text="Запросить Прайс Лист Или Получить Консультацию" />
