@@ -29,7 +29,7 @@ export default function HeroSection() {
                 </h2>
                 <div className="relative">
                     <BlobsButton text="Запросить Прайс Лист Или Получить Консультацию" />
-                    {/*<PulseRings/>*/}
+                    <PulseRings/>
                 </div>
             </div>
             {/*<NextSection/>*/}
