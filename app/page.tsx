@@ -19,7 +19,7 @@ export default async function MainPage() {
         <PartnerSection/>
         <ReactHookForm/>
         <MarqueeSection/>
-        {/*<MapsSection/>*/}
+        <MapsSection/>
       </div>
     )
 }

@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" className={montserrat.className}>
       <body className="overflow-hidden">
         <div className="fixed top-0 left-0 w-full z-50 bg-white">
-          <header className="z-50 bg-white container flex items-center justify-between">
+          {/*<<header className="z-50 bg-white container flex items-center justify-between">
             <Link href="/" className="cursor-pointer">
               <Image
                 src="/kompunity logo.svg"
@@ -57,6 +57,7 @@ export default function RootLayout({
               </div>
             </nav>
           </header>
+          */}
         </div>
 
 
