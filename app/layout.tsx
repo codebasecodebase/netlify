@@ -66,6 +66,7 @@ export default function RootLayout({
 
         </main>
 
+        {/*
         <footer className="flex w-full flex-wrap container">
           <div className="w-[30%]">
             <h3 className="text-[36px] font-bold">
@@ -110,6 +111,7 @@ export default function RootLayout({
             </span>
           </div>
         </footer>
+        */}
       </body>
     </html>
   );
