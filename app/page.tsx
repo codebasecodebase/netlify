@@ -15,7 +15,7 @@ export default async function MainPage() {
         {/*<HeroSection />*/}
         <AboutSection/>
         {/*<CategorySection/>*/}
-        {/*<AdventagesSection/>*/}
+        <AdventagesSection/>
         <PartnerSection/>
         {/*<ReactHookForm/>*/}
         <MarqueeSection/>
