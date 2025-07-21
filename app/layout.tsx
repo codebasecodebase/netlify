@@ -31,8 +31,8 @@ export default function RootLayout({
               <Image
                 src="/kompunity logo.svg"
                 alt="Next.js logo"
-                width={60}
-                height={35}
+                width={0}
+                height={0}
                 priority={true}
               />
             </Link>
