@@ -32,7 +32,7 @@ export default function HeroSection() {
                     <PulseRings/>
                 </div>
             </div>
-            <NextSection/>
+            {/*<NextSection/>*/}
         </section>
     );
 }

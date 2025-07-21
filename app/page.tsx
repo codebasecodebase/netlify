@@ -12,9 +12,9 @@ export default async function MainPage() {
 
     return (
       <div className="">
-        {/*<HeroSection />*/}
+        *<HeroSection />
         <AboutSection/>
-        *<CategorySection/>*
+        {/*<CategorySection/>*/}
         <AdventagesSection/>
         {/*<PartnerSection/>*/}
         {/*<<ReactHookForm/>*/}
