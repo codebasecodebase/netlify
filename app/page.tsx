@@ -17,7 +17,7 @@ export default async function MainPage() {
         {/*<CategorySection/>*/}
         {/*<AdventagesSection/>*/}
         <PartnerSection/>
-        <ReactHookForm/>
+        {/*<ReactHookForm/>*/}
         <MarqueeSection/>
         <MapsSection/>
       </div>
