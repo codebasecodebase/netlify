@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const montserrat = Montserrat({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400','500','600','700','800'],
+  weight: ['400', '500', '600', '700', '800'],
   display: "swap"
 })
 
@@ -24,9 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.className}>
-      <body>
+      <body className="overflow-hidden">
         <div className="fixed top-0 left-0 w-full z-50 bg-white">
-        {/*<header className="z-50 bg-white container flex items-center justify-between">
+          <header className="z-50 bg-white container flex items-center justify-between">
             <Link href="/" className="cursor-pointer">
               <Image
                 src="/kompunity logo.svg"
@@ -56,9 +56,9 @@ export default function RootLayout({
                 </Link>
               </div>
             </nav>
-        </header>*/}
+          </header>
         </div>
-        
+
 
         <main className="mt-[56px]">
 
@@ -66,7 +66,7 @@ export default function RootLayout({
 
         </main>
 
-{/*<footer className="flex w-full flex-wrap container">
+        <footer className="flex w-full flex-wrap container">
           <div className="w-[30%]">
             <h3 className="text-[36px] font-bold">
               KOMPUNITY
@@ -109,7 +109,7 @@ export default function RootLayout({
               OOO “КомпЮнити” Адрес: г. Минск, 220035, ул. Сапёров, д. 5-1, пом. 204 Банковские реквизиты: р/с BY 14 PJCB 3012 0747041000000 933 (BYN) ОАО “Приорбанк” г. Минск, БИК PJCBBY2X УНП 193633364 На основании Устава
             </span>
           </div>
-        </footer>*/}
+        </footer>
       </body>
     </html>
   );
