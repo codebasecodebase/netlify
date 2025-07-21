@@ -12,12 +12,12 @@ export default async function MainPage() {
 
     return (
       <div className="">
-        <HeroSection />
-        {/*<<AboutSection/>*/}
-        <CategorySection/>
+        {/*<HeroSection />*/}
+        <AboutSection/>
+        {/*<CategorySection/>*/}
         <AdventagesSection/>
-        <PartnerSection/>
-        <ReactHookForm/>
+        {/*<PartnerSection/>*/}
+        {/*<<ReactHookForm/>*/}
         <MarqueeSection/>
         <MapsSection/>
       </div>
