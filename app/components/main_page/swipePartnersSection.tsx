@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplayay from 'embla-carousel-autoplay'
 import Image from 'next/image'
@@ -13,7 +13,7 @@ export default function PartnerSection() {
   )
 
   // Intersection Observer ref
-  const sectionRef = useRef(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const [isInView, setIsInView] = useState(false)
 
   // 2. Правильные настройки карусели
@@ -23,76 +23,132 @@ export default function PartnerSection() {
       align: 'start',
       containScroll: 'trimSnaps',
       dragFree: true,
-      inViewThreshold: 1, // Enables momentum-based scrolling
+      inViewThreshold: 1,
     },
     [autoplay]
   )
-  // SSR: отслеживаем загрузку всех изображений
-  const [imagesLoaded, setImagesLoaded] = useState(0)
-  const totalSlides = 9
-  useEffect(() => {
-    if (emblaApi && imagesLoaded === totalSlides) {
-      emblaApi.reInit()
-    }
-  }, [emblaApi, imagesLoaded])
-
-  // Intersection Observer logic
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-    const observer = new window.IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      { threshold: 0.5 }
-    )
-    observer.observe(section)
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    if (isInView) {
-      autoplay.play()
-    } else {
-      autoplay.stop()
-    }
-    return () => autoplay.stop()
-  }, [emblaApi, autoplay, isInView])
   
+  // Оптимизация: кэширование размеров элемента
+  const rectRef = useRef({ left: 0, top: 0, width: 0, height: 0 });
+  
+  // Обновление размеров при ресайзе
+  useEffect(() => {
+    const updateRect = () => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        rectRef.current = {
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height
+        };
+      }
+    };
+    
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    return () => window.removeEventListener('resize', updateRect);
+  }, []);
+
   // Состояние для частиц
   const [particles, setParticles] = useState<Array<{x: number, y: number, size: number, color: string}>>([]);
+  const particlesRef = useRef(particles);
+  particlesRef.current = particles;
   
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  // Оптимизация: анимация через requestAnimationFrame
+  const animationFrameRef = useRef<number | null>(null);
+  
+  const animateParticles = useCallback(() => {
+    setParticles(prev => 
+      prev.map(p => ({
+        ...p,
+        y: p.y - 0.3,
+        size: p.size * 0.95
+      })).filter(p => p.size > 1)
+    );
+    
+    if (particlesRef.current.length > 0) {
+      animationFrameRef.current = requestAnimationFrame(animateParticles);
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (particles.length > 0 && !animationFrameRef.current) {
+      animationFrameRef.current = requestAnimationFrame(animateParticles);
+    }
+    
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+  }, [particles, animateParticles]);
+
+  // Оптимизированный обработчик мыши
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = rectRef.current;
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Увеличиваем разброс частиц (от 30 до 60 пикселей от центра)
-    const newParticles = Array(3).fill(0).map((_, i) => ({
+    // Создаем новые частицы без обновления состояния
+    const newParticles = Array(3).fill(0).map(() => ({
       x: x + (Math.random() * 60 - 30),
       y: y + (Math.random() * 60 - 30),
-      size: Math.random() * 8 + 5, // Увеличиваем размер частиц
+      size: Math.random() * 8 + 5,
       color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 155)}, 255, 0.7)`
     }));
     
+    // Батчинг обновлений частиц
     setParticles(prev => [...newParticles, ...prev.slice(0, 7)]);
-  };
+  }, []);
   
-  // В эффекте анимации уменьшаем скорость исчезновения
+  // SSR: отслеживаем загрузку всех изображений
+  const imagesLoadedRef = useRef(0);
+  const totalSlides = 9;
+  
   useEffect(() => {
-    if (particles.length === 0) return;
+    if (emblaApi && imagesLoadedRef.current === totalSlides) {
+      emblaApi.reInit();
+    }
+  }, [emblaApi]);
+
+  const handleImageLoad = useCallback(() => {
+    imagesLoadedRef.current += 1;
+    if (emblaApi && imagesLoadedRef.current === totalSlides) {
+      emblaApi.reInit();
+    }
+  }, [emblaApi]);
+
+  // Intersection Observer оптимизация
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
     
-    const timer = setInterval(() => {
-      setParticles(prev => 
-        prev.map(p => ({
-          ...p,
-          y: p.y - 0.3, // Медленнее поднимаются
-          size: p.size * 0.95 // Медленнее уменьшаются
-        })).filter(p => p.size > 1)
-      );
-    }, 50);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        requestAnimationFrame(() => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.5 }
+    );
     
-    return () => clearInterval(timer);
-  }, [particles]);
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    
+    if (isInView) {
+      autoplay.play();
+    } else {
+      autoplay.stop();
+    }
+    
+    return () => autoplay.stop();
+  }, [emblaApi, autoplay, isInView]);
 
   return (
     <section 
@@ -101,10 +157,10 @@ export default function PartnerSection() {
       style={{background:'#f9f9f9'}}
       onMouseMove={handleMouseMove}
     >
-      {/* Рендерим частицы */}
+      {/* Оптимизированный рендеринг частиц */}
       {particles.map((p, i) => (
         <div 
-          key={i}
+          key={`${p.x}-${p.y}-${i}`}
           className="absolute rounded-full pointer-events-none"
           style={{
             left: `${p.x}px`,
@@ -113,7 +169,8 @@ export default function PartnerSection() {
             height: `${p.size}px`,
             background: p.color,
             zIndex: 1,
-            transform: `translate(-50%, -50%)`
+            transform: `translate(-50%, -50%)`,
+            willChange: 'transform, opacity'
           }}
         />
       ))}
@@ -131,14 +188,12 @@ export default function PartnerSection() {
                   src={src}
                   alt={`Slide ${index + 1}`}
                   fill
-                  //priority={index === 0}
                   quality={100}
                   sizes="100vw"
                   className="object-cover select-none outline-none touch-none"
-                  onLoad={() => setImagesLoaded((v) => v + 1)}
+                  onLoad={handleImageLoad}
                   loading="lazy"	
                 />
-                <h1  className="z-2 absolute text-white text-4xl">{index + 1}</h1>
               </div>
             </div>
           ))}

@@ -8,6 +8,8 @@
      --slide-size-sm: 50%;
      --slide-spacing-lg: 20px;
      --slide-size-lg: calc(100% / 5);
+     contain: strict;
+     /* Изолируем компоновку */
  }
 
  .embla-height {
@@ -43,6 +45,9 @@
      min-width: 0;
      flex: 0 0 var(--slide-size);
      padding-left: var(--slide-spacing);
+     will-change: transform;
+     /* Оптимизируем анимацию слайдов */
+     backface-visibility: hidden;
  }
 
  @media (min-width: 750px) {
@@ -69,6 +74,11 @@
      justify-content: center;
      height: var(--slide-height);
      user-select: none;
+ }
+
+ .absolute {
+     will-change: transform, opacity;
+     contain: layout style paint;
  }
 
 
