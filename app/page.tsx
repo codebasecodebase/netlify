@@ -13,7 +13,7 @@ export default async function MainPage() {
     return (
       <div className="">
         <HeroSection />
-        <AboutSection/>
+        {/*<<AboutSection/>*/}
         <CategorySection/>
         <AdventagesSection/>
         <PartnerSection/>
