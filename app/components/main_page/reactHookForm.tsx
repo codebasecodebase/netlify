@@ -568,7 +568,7 @@ export default function ReactHookForm() {
                                 <button
                                     type="submit"
                                     className="cursor-pointer p-[20px] rounded-[30px] text-white transition-transform duration-100 ease-out"
-                                    disabled={isSending || isAnimating}
+                                    disabled={isSending}
                                     onClick={handleClick}
                                     style={{ 
                                         background: '#0700ff', 
