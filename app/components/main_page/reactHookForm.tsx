@@ -362,7 +362,7 @@ export default function ReactHookForm() {
                             </span>
                         </div>
 
-                        <div className="w-[30%] flex flex-col justify-center">
+                        <div className="w-[30%] flex flex-col justify-center font-medium">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Адрес
                             </h4>
@@ -442,7 +442,7 @@ export default function ReactHookForm() {
                             </span>
                         </div>
 
-                        <div className="w-[30%] mt-[20px] flex flex-col justify-center">
+                        <div className="w-[30%] mt-[20px] flex flex-col justify-center font-medium">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Email
                             </h4>
@@ -479,7 +479,7 @@ export default function ReactHookForm() {
                                 <span className="text-red-500 text-sm">Минимум 5 символов</span>}
                         </span>
 
-                        <div className="w-[30%] mt-[20px] flex flex-col">
+                        <div className="w-[30%] mt-[20px] flex flex-col font-medium">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Телефоны
                             </h4>
