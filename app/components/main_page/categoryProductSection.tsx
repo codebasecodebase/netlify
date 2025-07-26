@@ -172,7 +172,7 @@ export default function CategorySection() {
             smoothScrollToMap(duration);
             return;
         }
-        
+
         if (activeItemRef.current === null) {
             // Первый клик - активируем элемент
             activeItemRef.current = index;
@@ -185,6 +185,23 @@ export default function CategorySection() {
             activeItemRef.current = index;
         }
     };
+
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleDocumentClick = (e: MouseEvent) => {
+            if (containerRef.current &&
+                !containerRef.current.contains(e.target as Node)) {
+                activeItemRef.current = null;
+            }
+        };
+
+        document.addEventListener('click', handleDocumentClick);
+
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    }, []);
 
     function smoothScrollToMap(duration: number = 1500): void {
         const target = document.getElementById('hookForm');
@@ -294,7 +311,7 @@ export default function CategorySection() {
                 <h2 className="h2__section-title_responsive-font">ОБОРУДОВАНИЕ</h2>
                 <h3 className="h3__section-title_responsive-font">Мы поставляем следующее оборудование</h3>
                 <div className="text-center flex justify-center items-center relative">
-                    <h3 className="h3__section-title_responsive-font mr-[30px] figure-color italic" style={{ color: '#2f4a99' }}>ТОП ДИСТРИБЬЮТОР БРЕНДА</h3>
+                    <h3 className="h3__section-title_responsive-font mr-[30px] italic" style={{ color: '#2f4a99' }}>ТОП ДИСТРИБЬЮТОР БРЕНДА</h3>
                     <Image
                         src="https://kompunity.by/wp-content/uploads/2023/08/trassir.png"
                         alt="Slide"
@@ -307,7 +324,7 @@ export default function CategorySection() {
                     />
                 </div>
 
-                <div className="category-section__images">
+                <div className="category-section__images" ref={containerRef}>
                     {categories.map((category, index) => (
                         <picture
                             key={index}
@@ -315,6 +332,7 @@ export default function CategorySection() {
                             style={{ position: 'relative' }}
                             onMouseEnter={() => startAnimation(index)}
                             onMouseLeave={() => stopAnimation(index)}
+                            ref={containerRef}
                         >
                             <Image
                                 src={category.img}
@@ -329,6 +347,7 @@ export default function CategorySection() {
                                 <h4
                                     className="h4__category-section_responsive-font"
                                     onClick={() => handleTouchClick(index, 4000)}
+                                    ref={containerRef}
                                 >
                                     {category.title}
                                 </h4>
@@ -336,6 +355,7 @@ export default function CategorySection() {
                                     <h5
                                         className="h5__category-section_responsive-font"
                                         onClick={() => handleTouchClick(index, 4000)}
+                                        ref={containerRef}
                                     >
                                         {category.subtitle}
                                     </h5>

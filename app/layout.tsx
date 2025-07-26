@@ -5,6 +5,7 @@ import "./variables.scss";
 import "./style.scss";
 import Link from "next/link";
 import Image from "next/image";
+import LinkComponent from "./components/main_page/layout/link"
 
 const montserrat = Montserrat({
   subsets: ['latin', 'cyrillic'],
@@ -31,31 +32,13 @@ export default function RootLayout({
               <Image
                 src="/kompunity logo.svg"
                 alt="Next.js logo"
-                width={0}
-                height={0}
+                width={70}
+                height={70}
                 priority={true}
               />
             </Link>
 
-            <nav className="py-4">
-              <div className="space-x-6">
-                <Link href="/">
-                  main
-                </Link>
-                <Link href="/about" className="hover:text-gray-300">
-                  about
-                </Link>
-                <Link href="/contacts" className="hover:text-gray-300">
-                  contacts
-                </Link>
-                <Link href="/blog" className="hover:text-gray-300">
-                  blog
-                </Link>
-                <Link href="/reviews" className="hover:text-gray-300">
-                  reviews
-                </Link>
-              </div>
-            </nav>
+            <LinkComponent/>
           </header>
         </div>
 
@@ -66,7 +49,6 @@ export default function RootLayout({
 
         </main>
 
-        {/*
         <footer className="flex w-full flex-wrap container">
           <div className="w-[30%]">
             <h3 className="text-[36px] font-bold">
@@ -111,7 +93,6 @@ export default function RootLayout({
             </span>
           </div>
         </footer>
-        */}
       </body>
     </html>
   );

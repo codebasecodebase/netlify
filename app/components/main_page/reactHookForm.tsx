@@ -603,7 +603,7 @@ export default function ReactHookForm() {
                                         />
                                         <button
                                             type="button"
-                                            className="p-[20px] rounded-[30px] text-white w-[160px] cursor-pointer whitespace-nowrap bg-black"
+                                            className="p-[20px] rounded-[30px] text-white w-min[160px] cursor-pointer w-auto whitespace-nowrap bg-black"
                                             onClick={() => document.getElementById('fileInput')?.click()}
                                         >
                                             {(fileList && fileList.length > 0)
