@@ -5,7 +5,7 @@ import "./variables.scss";
 import "./style.scss";
 import Link from "next/link";
 import Image from "next/image";
-import LinkComponent from "./components/main_page/layout/link"
+import LinkComponent from "./components/main_page/layout/linkComponent"
 
 const montserrat = Montserrat({
   subsets: ['latin', 'cyrillic'],
@@ -33,7 +33,7 @@ export default function RootLayout({
                 src="/kompunity logo.svg"
                 alt="Next.js logo"
                 width={70}
-                height={70}
+                height={39.59}
                 priority={true}
               />
             </Link>
