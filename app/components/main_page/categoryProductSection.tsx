@@ -166,18 +166,24 @@ export default function CategorySection() {
     };
 
     // Внутри компонента:
-    const tapCountRef = useRef(0);
-    const handleTouchClick = (duration: number = 1500) => {
+    const activeItemRef = useRef<number | null>(null);
+    const handleTouchClick = (index: number, duration: number = 1500) => {
         if (!isTouchDevice()) {
             smoothScrollToMap(duration);
             return;
         }
-        tapCountRef.current += 1;
-        if (tapCountRef.current === 2) {
+        
+        if (activeItemRef.current === null) {
+            // Первый клик - активируем элемент
+            activeItemRef.current = index;
+        } else if (activeItemRef.current === index) {
+            // Второй клик на тот же элемент - скроллим
             smoothScrollToMap(duration);
-            tapCountRef.current = 0;
+            activeItemRef.current = null;
+        } else {
+            // Клик на другой элемент - просто меняем активный
+            activeItemRef.current = index;
         }
-        // Можно добавить таймер для сброса tapCountRef.current
     };
 
     function smoothScrollToMap(duration: number = 1500): void {
@@ -322,14 +328,14 @@ export default function CategorySection() {
                             <div className='category-text'>
                                 <h4
                                     className="h4__category-section_responsive-font"
-                                    onClick={() => handleTouchClick(4000)}
+                                    onClick={() => handleTouchClick(index, 4000)}
                                 >
                                     {category.title}
                                 </h4>
                                 {category.subtitle && (
                                     <h5
                                         className="h5__category-section_responsive-font"
-                                        onClick={() => handleTouchClick(4000)}
+                                        onClick={() => handleTouchClick(index, 4000)}
                                     >
                                         {category.subtitle}
                                     </h5>
