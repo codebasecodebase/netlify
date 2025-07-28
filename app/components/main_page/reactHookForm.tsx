@@ -32,7 +32,7 @@ export default function ReactHookForm() {
         resetField,
         formState: { errors },
     } = useForm<Inputs>({ mode: 'onChange' });
-    
+
     const fileList = watch("file");
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [fileInputKey, setFileInputKey] = useState(0);
@@ -180,14 +180,14 @@ export default function ReactHookForm() {
         setIsSending(true);
         setDangerMessage("");
         setSuccessMessage("");
-        
+
         const formData = new FormData();
         formData.append('organization', data.organization);
         formData.append('contactPerson', data.contactPerson);
         formData.append('email', data.email);
         formData.append('phone', data.phone);
         formData.append('message', data.message);
-        
+
         if (data.file && data.file.length > 0) {
             formData.append('file', data.file[0]);
         }
@@ -199,7 +199,7 @@ export default function ReactHookForm() {
             });
 
             const result = await response.json();
-            
+
             if (response.ok) {
                 setSuccessMessage("Сообщение успешно отправлено!");
                 setShowModal(true);
@@ -227,7 +227,7 @@ export default function ReactHookForm() {
     });
 
     // Форматирование первой буквы в верхний регистр
-    const handleInputChange = (onChange: (...event: any[]) => void) => 
+    const handleInputChange = (onChange: (...event: any[]) => void) =>
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const { value } = e.target;
             e.target.value = value.charAt(0).toUpperCase() + value.slice(1);
@@ -260,17 +260,17 @@ export default function ReactHookForm() {
 
     return (
         <div className="section__responsive-padding relative overflow-hidden" id="hookForm">
-            <img 
-                src="/gggyrate.svg" 
-                alt="background" 
-                className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-25" 
+            <img
+                src="/gggyrate.svg"
+                alt="background"
+                className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-25"
                 style={{ zIndex: 0 }}
                 loading="lazy"
             />
-            
+
             <div className="container w-fulll text-center">
                 <h3 className="h2__section-title_responsive-font">ОСТАВЬТЕ СВОЕ СООБЩЕНИЕ</h3>
-                <div className="flex gap-[20px]">
+                <div className="flex gap-[20px] relative items-center mb-[100px]">
                     {/* Модальное окно успешной отправки */}
                     {showModal && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn">
@@ -295,12 +295,12 @@ export default function ReactHookForm() {
                             )}
                         </div>
                     )}
-                    
-                    <form 
-                        ref={formRef} 
-                        onSubmit={handleSubmit(onSubmit)} 
-                        style={{ opacity: 0, willChange: 'transform' }} 
-                        className="flex flex-wrap space-between contact__form w-[100%] mb-[100px]"
+
+                    <form
+                        ref={formRef}
+                        onSubmit={handleSubmit(onSubmit)}
+                        style={{ opacity: 0, willChange: 'transform'}}
+                        className="flex flex-wrap justify-between contact__form z-[1] w-[80%] max-[1150px]:w-full"
                     >
                         <div className="w-[70%] flex flex-wrap items-start gap-[2%]">
                             <span className="w-[49%] flex flex-wrap items-start">
@@ -328,7 +328,7 @@ export default function ReactHookForm() {
                                         </button>
                                     )}
                                 </div>
-                                {errors.organization?.type === 'required' && 
+                                {errors.organization?.type === 'required' &&
                                     <span className="text-red-500 text-sm">Введите организацию</span>}
                             </span>
 
@@ -357,7 +357,7 @@ export default function ReactHookForm() {
                                         </button>
                                     )}
                                 </div>
-                                {errors.contactPerson?.type === 'required' && 
+                                {errors.contactPerson?.type === 'required' &&
                                     <span className="text-red-500 text-sm">Введите контактное лицо</span>}
                             </span>
                         </div>
@@ -398,9 +398,9 @@ export default function ReactHookForm() {
                                         </button>
                                     )}
                                 </div>
-                                {errors.email?.type === 'required' && 
+                                {errors.email?.type === 'required' &&
                                     <span className="text-red-500 text-sm">Email обязателен</span>}
-                                {errors.email?.type === 'pattern' && 
+                                {errors.email?.type === 'pattern' &&
                                     <span className="text-red-500 text-sm">Введите корректный email</span>}
                             </span>
 
@@ -435,9 +435,9 @@ export default function ReactHookForm() {
                                         </button>
                                     )}
                                 </div>
-                                {errors.phone?.type === 'required' && 
+                                {errors.phone?.type === 'required' &&
                                     <span className="text-red-500 text-sm">Телефон обязателен</span>}
-                                {errors.phone?.type === 'pattern' && 
+                                {errors.phone?.type === 'pattern' &&
                                     <span className="text-red-500 text-sm">Введите корректный номер телефона</span>}
                             </span>
                         </div>
@@ -473,9 +473,9 @@ export default function ReactHookForm() {
                                     </button>
                                 )}
                             </div>
-                            {errors.message?.type === 'required' && 
+                            {errors.message?.type === 'required' &&
                                 <span className="text-red-500 text-sm">Вы не ввели сообщение</span>}
-                            {errors.message?.type === 'minLength' && 
+                            {errors.message?.type === 'minLength' &&
                                 <span className="text-red-500 text-sm">Минимум 5 символов</span>}
                         </span>
 
@@ -536,12 +536,12 @@ export default function ReactHookForm() {
 
                         <div className="w-[70%] mt-[20px] flex justify-between">
                             <div>
-                                <button 
-                                    type="submit" 
-                                    className="cursor-pointer p-[20px] rounded-[30px] text-white" 
-                                    disabled={isSending} 
-                                    style={{ 
-                                        background: '#0700ff', 
+                                <button
+                                    type="submit"
+                                    className="cursor-pointer p-[20px] rounded-[30px] text-white"
+                                    disabled={isSending}
+                                    style={{
+                                        background: '#0700ff',
                                         textTransform: 'uppercase',
                                         opacity: isSending ? 0.7 : 1
                                     }}
@@ -553,10 +553,10 @@ export default function ReactHookForm() {
                                         </div>
                                     ) : 'Отправить'}
                                 </button>
-                                
+
                                 {!isFormEmpty && (
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         className="bg-black p-[20px] rounded-[30px] text-white ml-[10px] cursor-pointer"
                                         onClick={() => {
                                             reset();
@@ -617,16 +617,16 @@ export default function ReactHookForm() {
                                             transform: 'translateX(-50%)',
                                         }}>
                                             <div className="relative">
-                                                <img 
-                                                    src={imageUrl} 
-                                                    alt="Предпросмотр" 
-                                                    style={{ 
-                                                        maxWidth: '150px', 
-                                                        maxHeight: '100px', 
-                                                        height: '100%', 
-                                                        border: '1px solid #ccc', 
-                                                        borderRadius: '8px' 
-                                                    }} 
+                                                <img
+                                                    src={imageUrl}
+                                                    alt="Предпросмотр"
+                                                    style={{
+                                                        maxWidth: '150px',
+                                                        maxHeight: '100px',
+                                                        height: '100%',
+                                                        border: '1px solid #ccc',
+                                                        borderRadius: '8px'
+                                                    }}
                                                 />
                                                 <button
                                                     type="button"
@@ -661,7 +661,7 @@ export default function ReactHookForm() {
                                 </div>
                             </div>
                         </div>
-                        
+
                         {/* Сообщения об ошибках и успехе */}
                         {dangerMessage && (
                             <div className="w-full mt-4 bg-red-100 text-red-700 p-3 rounded mb-3">
@@ -674,12 +674,14 @@ export default function ReactHookForm() {
                             </div>
                         )}
                     </form>
-                    <OptimizedAnimatedImageContactFormBackground />
+                    <div className="max-[1150px]:hidden absolute right-0 z-0">
+                        <OptimizedAnimatedImageContactFormBackground />
+                    </div>
                 </div>
-                
+
             </div>
-            
-            <ToastContainer 
+
+            <ToastContainer
                 position="bottom-right"
                 autoClose={5000}
                 hideProgressBar={false}

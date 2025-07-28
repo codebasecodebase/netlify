@@ -87,7 +87,7 @@ export default function RootLayout({
               </div>
             </ul>
           </div>
-          <div className="w-full text-center">
+          <div className="w-full text-center font-medium mt-[10px]">
             <span>
               OOO “КомпЮнити” Адрес: г. Минск, 220035, ул. Сапёров, д. 5-1, пом. 204 Банковские реквизиты: р/с BY 14 PJCB 3012 0747041000000 933 (BYN) ОАО “Приорбанк” г. Минск, БИК PJCBBY2X УНП 193633364 На основании Устава
             </span>

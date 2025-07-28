@@ -70,8 +70,8 @@ const OptimizedAnimatedImageContactFormBackground = () => {
       <Image
         src="/Typing-rafiki.svg"
         alt="Floating animation"
-        width={400}
-        height={400}
+        width={300}
+        height={300}
         quality={100}
         sizes="100vw"
         loading="lazy"

@@ -107,42 +107,6 @@ canvas {
   }
 }
 
-@media (max-width: 768px) {
-  .category-section__images picture {
-    &.in-view {
-      &::before {
-        background: #00000091;
-      }
-      border-bottom-right-radius: 25%;
-      border-top-left-radius: 25%;
-      img {
-        transform: scale(1.3);
-      }
-      div.category-text {
-        line-height: 2;
-        h4, h5 {
-          opacity: 1;
-        }
-      }
-    }
-    &:not(.in-view) {
-      &::before {
-        background: transparent;
-      }
-      border-radius: 0;
-      img {
-        transform: scale(1);
-      }
-      div.category-text {
-        line-height: 15;
-        h4, h5 {
-          opacity: 0;
-        }
-      }
-    }
-  }
-}
-
 .category-image-main {
   width: 100%;
   height: 45vh;
