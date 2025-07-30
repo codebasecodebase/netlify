@@ -128,6 +128,36 @@ canvas {
   min-height: 200px;
 }
 
+  @media (max-width: 1000px) and (min-width: 600px) {
+      .category-image-row {
+         width: calc((100% - 1 * 15px) / 2);
+      }
+   }
+
+    @media (max-width: 599px) {
+      .category-image-row {
+         width: calc(100%);
+      }
+   }
+
+    @media (max-width: 1000px) {
+      .category-image-main {
+         width: calc(50% - 7.5px);
+      }
+   }
+
+   @media (max-width: 599px) {
+      .category-image-main {
+         width: calc(100%);
+      }
+   }
+
+   @media (max-width: 599px) {
+      .category-image-row-bottom {
+         width: calc(100%);
+      }
+   }
+
 
 .advantages__section{
   display: flex;
