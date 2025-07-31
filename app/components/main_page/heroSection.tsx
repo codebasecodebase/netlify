@@ -12,7 +12,9 @@ import NextSection from './heroSection/nextSection';
 export default function HeroSection() {
 
     return (
-        <section className="relative w-full h-[650px] overflow-hidden">
+        <section className="relative w-full overflow-hidden" style={{ 
+    height: 'clamp(450px, 45vw, 650px)' 
+  }}>
             <Image src="/laptop.avif"
                 alt="Slide 1"
                 fill
