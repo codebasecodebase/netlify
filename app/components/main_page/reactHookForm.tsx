@@ -680,8 +680,8 @@ export default function ReactHookForm() {
                 </div>
 
             </div>
-            <div className="mobile_open_contact_info">
-                <div className="w-[30%] mt-[20px] flex flex-col justify-center font-medium">
+            <div className="mobile_open_contact_info text-center flex justify-center flex-col items-center min-[750px]:hidden">
+                <div className="flex flex-col justify-center font-medium align-middle">
                     <h4 className="h4__advantages-section_responsive-font">
                         Email
                     </h4>
@@ -689,7 +689,7 @@ export default function ReactHookForm() {
                         kompunity.by@gmail.com
                     </h5>
                 </div>
-                <div className="w-[30%] mt-[20px] flex flex-col font-medium">
+                <div className="mt-[20px] flex flex-col font-medium">
                     <h4 className="h4__advantages-section_responsive-font">
                         Телефоны
                     </h4>
