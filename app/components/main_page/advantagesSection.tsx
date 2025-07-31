@@ -350,7 +350,7 @@ export default function AdventagesSection() {
                             Персональный менеджер для клиента, способный удовлетворить запросы самых требовательных клиентов.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' , width:'100%'}}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/benchmarking.webp"
                             alt="Slide"
                             width={170}

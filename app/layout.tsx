@@ -49,8 +49,8 @@ export default function RootLayout({
 
         </main>
 
-        <footer className="flex w-full flex-wrap container">
-          <div className="w-[30%]">
+        <footer className="flex w-full flex-wrap container justify-between max-[550px]:flex-col">
+          <div className="w-[30%] max-[900px]:hidden">
             <h3 className="text-[36px] font-bold">
               KOMPUNITY
             </h3>
@@ -58,7 +58,7 @@ export default function RootLayout({
               ООО "KompUnity" - это динамично развивающаяся компания, созданная успешными профессионалами в сфере оптовых продаж компьютерной и офисной техники.
             </h4>
           </div>
-          <div className="w-[30%] text-center">
+          <div className="w-[30%] text-center max-[900px]:w-[50%] max-[550px]:w-[100%]">
             <h3 className="text-[40px] font-semibold">
               Адрес
             </h3>
@@ -77,7 +77,7 @@ export default function RootLayout({
               </li>
             </ul>
           </div>
-          <div className="w-[30%] text-center">
+          <div className="w-[30%] text-center max-[900px]:w-[50%] max-[550px]:w-[100%]">
             <h3 className="text-[40px] font-semibold">Контакты</h3>
             <ul className="font-medium">
               <div>

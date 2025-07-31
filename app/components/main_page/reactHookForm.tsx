@@ -302,8 +302,8 @@ export default function ReactHookForm() {
                         style={{ opacity: 0, willChange: 'transform' }}
                         className="flex flex-wrap justify-between contact__form z-[1] w-[80%] max-[1150px]:w-full"
                     >
-                        <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%]">
-                            <span className="w-[49%] flex flex-wrap items-start">
+                        <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%] max-[700px]:gap-[20px]">
+                            <span className="w-[49%] flex flex-wrap items-start max-[700px]:w-[100%]">
                                 <div className="relative w-[100%]">
                                     <input
                                         placeholder="Организация"
@@ -332,7 +332,7 @@ export default function ReactHookForm() {
                                     <span className="text-red-500 text-sm">Введите организацию</span>}
                             </span>
 
-                            <span className="w-[49%] flex flex-wrap items-start">
+                            <span className="w-[49%] flex flex-wrap items-start max-[700px]:w-[100%]">
                                 <div className="relative w-[100%]">
                                     <input
                                         placeholder="Контактное лицо"
@@ -372,7 +372,7 @@ export default function ReactHookForm() {
                         </div>
 
                         <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%]">
-                            <span className="w-[49%] mt-[20px] flex flex-wrap items-start">
+                            <span className="w-[49%] mt-[20px] flex flex-wrap items-start max-[700px]:w-[100%]">
                                 <div className="relative w-[100%]">
                                     <input
                                         type="email"
@@ -404,7 +404,7 @@ export default function ReactHookForm() {
                                     <span className="text-red-500 text-sm">Введите корректный email</span>}
                             </span>
 
-                            <span className="w-[49%] mt-[20px] flex flex-wrap items-start">
+                            <span className="w-[49%] mt-[20px] flex flex-wrap items-start max-[700px]:w-[100%]">
                                 <div className="relative w-[100%]">
                                     <input
                                         type="tel"
