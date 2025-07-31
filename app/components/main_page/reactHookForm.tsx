@@ -302,7 +302,7 @@ export default function ReactHookForm() {
                         style={{ opacity: 0, willChange: 'transform'}}
                         className="flex flex-wrap justify-between contact__form z-[1] w-[80%] max-[1150px]:w-full"
                     >
-                        <div className="w-[70%] flex flex-wrap items-start gap-[2%]">
+                        <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%]">
                             <span className="w-[49%] flex flex-wrap items-start">
                                 <div className="relative w-[100%]">
                                     <input
@@ -362,7 +362,7 @@ export default function ReactHookForm() {
                             </span>
                         </div>
 
-                        <div className="w-[30%] flex flex-col justify-center font-medium">
+                        <div className="w-[30%] flex flex-col justify-center font-medium max-[750px]:hidden">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Адрес
                             </h4>
@@ -371,7 +371,7 @@ export default function ReactHookForm() {
                             </h5>
                         </div>
 
-                        <div className="w-[70%] flex flex-wrap items-start gap-[2%]">
+                        <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%]">
                             <span className="w-[49%] mt-[20px] flex flex-wrap items-start">
                                 <div className="relative w-[100%]">
                                     <input
@@ -442,7 +442,7 @@ export default function ReactHookForm() {
                             </span>
                         </div>
 
-                        <div className="w-[30%] mt-[20px] flex flex-col justify-center font-medium">
+                        <div className="w-[30%] mt-[20px] flex flex-col justify-center font-medium max-[750px]:hidden">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Email
                             </h4>
@@ -451,7 +451,7 @@ export default function ReactHookForm() {
                             </h5>
                         </div>
 
-                        <span className="w-[70%] mt-[20px] flex flex-wrap items-start">
+                        <span className="w-full min-[750px]:w-[70%] mt-[20px] flex flex-wrap items-start">
                             <div className="relative w-[100%]">
                                 <textarea
                                     placeholder="Ваше сообщение"
@@ -479,7 +479,7 @@ export default function ReactHookForm() {
                                 <span className="text-red-500 text-sm">Минимум 5 символов</span>}
                         </span>
 
-                        <div className="w-[30%] mt-[20px] flex flex-col font-medium">
+                        <div className="w-[30%] mt-[20px] flex flex-col font-medium max-[750px]:hidden">
                             <h4 className="h4__advantages-section_responsive-font">
                                 Телефоны
                             </h4>
@@ -534,7 +534,7 @@ export default function ReactHookForm() {
                             </div>
                         </div>
 
-                        <div className="w-[70%] mt-[20px] flex justify-between">
+                        <div className="w-full min-[750px]:w-[70%] mt-[20px] flex justify-between">
                             <div>
                                 <button
                                     type="submit"

@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Autoplayay from 'embla-carousel-autoplay';
+import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 import "./embla.css";
 
@@ -19,7 +19,7 @@ const imageSources = [
 
 export default function PartnersSlider() {
   const autoplay = useMemo(() => 
-    Autoplayay({ delay: 3000, stopOnInteraction: false }), 
+    Autoplay({ delay: 3000, stopOnInteraction: false }), 
     []
   );
 

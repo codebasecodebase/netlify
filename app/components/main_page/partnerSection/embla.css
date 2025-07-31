@@ -32,11 +32,6 @@
   backface-visibility: hidden;
 }
 
-.absolute {
-  will-change: transform, opacity;
-  contain: layout style paint;
-}
-
  @media (min-width: 750px) {
      .embla__container {
          margin-left: calc(var(--slide-spacing-sm) * -1);
@@ -115,3 +110,8 @@
          box-shadow: 0 0 80px 30px #6e14ff72, 0 0 120px 40px #8914ff44;
      }
  }
+
+.absolute {
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
