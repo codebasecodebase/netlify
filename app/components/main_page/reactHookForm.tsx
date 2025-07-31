@@ -299,7 +299,7 @@ export default function ReactHookForm() {
                     <form
                         ref={formRef}
                         onSubmit={handleSubmit(onSubmit)}
-                        style={{ opacity: 0, willChange: 'transform'}}
+                        style={{ opacity: 0, willChange: 'transform' }}
                         className="flex flex-wrap justify-between contact__form z-[1] w-[80%] max-[1150px]:w-full"
                     >
                         <div className="w-full min-[750px]:w-[70%] flex flex-wrap items-start gap-[2%]">
@@ -679,6 +679,70 @@ export default function ReactHookForm() {
                     </div>
                 </div>
 
+            </div>
+            <div className="mobile_open_contact_info">
+                <div className="w-[30%] mt-[20px] flex flex-col justify-center font-medium">
+                    <h4 className="h4__advantages-section_responsive-font">
+                        Email
+                    </h4>
+                    <h5>
+                        kompunity.by@gmail.com
+                    </h5>
+                </div>
+                <div className="w-[30%] mt-[20px] flex flex-col font-medium">
+                    <h4 className="h4__advantages-section_responsive-font">
+                        Телефоны
+                    </h4>
+                    <ul>
+                        <li>
+                            <a href="tel:+375447039707">А1 44 703 97 07</a>
+                        </li>
+                        <li>
+                            <a href="tel:+375336369707">МТС 33 636 97 07</a>
+                        </li>
+                        <li>
+                            <a href="tel:+375173079707">Гор 17 307 97 07</a>
+                        </li>
+                    </ul>
+                    <div className="contacat__icon flex justify-center gap-[5px] mt-[10px]">
+                        <a ref={viberRef} href="viber://add?number=375447039707" style={{ willChange: 'transform' }}>
+                            <Image
+                                src={'https://kompunity.by/wp-content/uploads/social_icons/viber_icon.svg'}
+                                alt={`Viber icon`}
+                                width={40}
+                                height={40}
+                                quality={100}
+                                sizes="100vw"
+                                className="object-cover select-none outline-none touch-none"
+                                loading="lazy"
+                            />
+                        </a>
+                        <a href="https://t.me/kompunity_by">
+                            <Image
+                                src={'https://kompunity.by/wp-content/uploads/social_icons/telegram_icon.svg'}
+                                alt={`Telegram icon`}
+                                width={40}
+                                height={40}
+                                quality={100}
+                                sizes="100vw"
+                                className="object-cover select-none outline-none touch-none"
+                                loading="lazy"
+                            />
+                        </a>
+                        <a href="https://instagram.com/kompunity.by">
+                            <Image
+                                src={'https://kompunity.by/wp-content/uploads/social_icons/instagram_icon.svg'}
+                                alt={`Instagram icon`}
+                                width={40}
+                                height={40}
+                                quality={100}
+                                sizes="100vw"
+                                className="object-cover select-none outline-none touch-none"
+                                loading="lazy"
+                            />
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <ToastContainer
