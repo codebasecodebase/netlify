@@ -235,73 +235,97 @@ export default function CategorySection() {
             img: "https://kompunity.by/wp-content/uploads/2023/07/camera.jpg",
             title: "Системы видеонаблюдения",
             subtitle: "(TRASSIR, Dahua, EZ-IP, Tiandy, Hikvision, HiWatch, Ezviz, Uniview)",
-            className: "category-image-main"
+            className: "category-image-main",
+            width: 1468,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/pvem.jpg",
             title: "Компьютеры \"ПЭВМ\" (Производство РБ)",
             subtitle: "Собираем компьютеры любой конфигурации",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/monitor.jpg",
             title: "Мониторы, телевизоры",
             subtitle: "",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/komplektuyushie.jpg",
             title: "Компьютерные комплектующие",
             subtitle: "",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/nout.jpg",
             title: "Ноутбуки",
             subtitle: "(Asus, Lenovo, HP, Acer, Dell, MSI)",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/printer.jpg",
             title: "Принтеры МФУ",
             subtitle: "Canon, HP, Kyocera, Pantum",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/server.jpg",
             title: "Сервера (Производство РБ)",
             subtitle: "а так же HP, Dell.",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/monoblok.jpg",
             title: "Моноблок",
             subtitle: "(Производство РБ), а так же ASUS, Lenovo, Acer, HP.",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/rashodnie.jpg",
             title: "Расходные материалы для печатной техники",
             subtitle: "(картриджи, тонер, фотобарабаны и т.д.)",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/setevoe.jpg",
             title: "Интерактивные доски, интерактивные панели",
             subtitle: "",
-            className: "category-image-row"
+            className: "category-image-row",
+            width: 479,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/aksesuari.jpg",
             title: "Компьютерная переферия",
             subtitle: "(Мыши, клавиатуры, колонки, web-камеры и т.д)",
-            className: "category-image-row-bottom"
+            className: "category-image-row-bottom",
+            width: 727,
+            height: 370
         },
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/zkteco.jpg",
             title: "Турникеты TRASSIR, ZKTeco",
             subtitle: "(Серия Green Label) (Биометрическая идентификация) (Контроль доступа) (Умный офис)",
-            className: "category-image-row-bottom"
+            className: "category-image-row-bottom",
+            width: 727,
+            height: 370
         }
     ];
 
@@ -343,7 +367,7 @@ export default function CategorySection() {
                                 sizes="100%"
                                 loading="lazy"
                             />
-                            <div className='category-text'>
+                            <div className='category-text select-none'>
                                 <h4
                                     className="h4__category-section_responsive-font"
                                     onClick={() => handleTouchClick(index, 4000)}
