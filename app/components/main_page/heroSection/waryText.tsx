@@ -32,7 +32,7 @@ export default function WavyText({ text }: { text: string; delay?: number }) {
     return (
         <div 
             ref={containerRef}
-            className="wavy-text-container flex" 
+            className="wavy-text-container flex items-center h-[80px]" 
             aria-label={text} // Для доступности
         >
             {text.split('').map((char, index) => {
