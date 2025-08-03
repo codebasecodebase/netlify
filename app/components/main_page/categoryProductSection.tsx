@@ -340,9 +340,9 @@ export default function CategorySection() {
                         src="https://kompunity.by/wp-content/uploads/2023/08/trassir.png"
                         alt="Slide"
                         width={285}
-                        height={285}
+                        height={87}
                         quality={100}
-                        sizes="100%"
+                        sizes="100vw"
                         className="ml-[20px] z-10"
                         loading="lazy"
                     />
@@ -361,10 +361,10 @@ export default function CategorySection() {
                             <Image
                                 src={category.img}
                                 alt={`Slide ${index + 1}`}
-                                width={1500}
-                                height={1500}
+                                width={category.width}
+                                height={category.height}
                                 quality={100}
-                                sizes="100%"
+                                sizes="100vw"
                                 loading="lazy"
                             />
                             <div className='category-text select-none'>

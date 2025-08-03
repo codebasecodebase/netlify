@@ -220,7 +220,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className="hover:rotate-x-spin"
                             loading="lazy"
                         />
@@ -237,7 +237,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -254,7 +254,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -271,7 +271,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -288,7 +288,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -305,7 +305,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -322,7 +322,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -339,7 +339,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />
@@ -356,7 +356,7 @@ export default function AdventagesSection() {
                             width={170}
                             height={200}
                             quality={100}
-                            sizes="100%"
+                            sizes="100vw"
                             className=""
                             loading="lazy"
                         />

@@ -60,6 +60,7 @@ export default function PartnersSlider() {
                 fill
                 className="object-cover select-none"
                 loading="lazy"
+                sizes="100vw"
               />
             </div>
           </div>
