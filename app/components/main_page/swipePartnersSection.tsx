@@ -111,10 +111,9 @@ export default function PartnerSection() {
     <section 
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="embla section__responsive-padding text-center relative overflow-hidden" 
+      className="embla text-center relative overflow-hidden section__responsive-padding" 
       style={{ 
         background: '#f9f9f9',
-        height: 'clamp(450px, 45vw, 650px)'
       }}
     >
       <ParticlesEffect 

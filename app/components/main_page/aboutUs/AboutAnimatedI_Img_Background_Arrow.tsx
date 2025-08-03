@@ -40,7 +40,7 @@ export default function AnimatedArrow() {
   return (
     <svg
       ref={svgRef}
-      className="absolute left-0 top-0 w-full h-full pointer-events-none select-none"
+      className="absolute left-0 top-0 w-full h-full pointer-events-none select-none max-[1150px]:hidden"
       style={{ zIndex: 0, transform: 'translateZ(0)' }}
       viewBox="0 0 1550 500"
       fill="none"

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 export default function LinkComponent() {
     const pathname = usePathname();
     return (
-    <nav className="py-4 font-medium max-[550px]:hidden">
+    <nav className="py-4 font-medium">
         <div className="space-x-6">
             <NextLink href="/" className={pathname === '/' ? 'text-blue-500' : ''}>
                 Главная

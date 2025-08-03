@@ -126,7 +126,7 @@ export default function AnimatedTriangele() {
     }, [animate, updateAnimationState]);
 
     return (
-        <div ref={containerRef} className="absolute inset-0">
+        <div ref={containerRef} className="absolute inset-0 max-[1150px]:hidden">
             {rects.map((r, i) => (
                 <svg
                     key={i}

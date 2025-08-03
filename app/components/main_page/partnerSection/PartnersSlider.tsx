@@ -22,7 +22,7 @@ export default function PartnersSlider() {
   
   // Настройка автовоспроизведения
    const autoplay = useMemo(() => 
-    Autoplay({ delay: 3000, stopOnInteraction: false }), 
+    Autoplay({ delay: 3000, stopOnInteraction: false, }), 
     []
   );
 
@@ -53,7 +53,8 @@ export default function PartnersSlider() {
       <div className="embla__container flex">
         {imageSources.map((src, index) => (
           <div key={index} className="embla__slide">
-            <div className="w-full bg-gray-200 relative rounded-xl overflow-hidden embla-height">
+            <div className="w-full bg-gray-200 relative rounded-xl overflow-hidden embla-height cursor-grab
+">
               <Image
                 src={src}
                 alt={`Slide ${index + 1}`}
