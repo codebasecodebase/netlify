@@ -214,156 +214,156 @@ export default function AdventagesSection() {
             <div className="container text-center overflow-hidden">
                 <h2 className="h2__section-title_responsive-font z-20">НАШИ ПРЕИМУЩЕСТВА</h2>
                 <div className="advantages__section">
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/stock.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className="hover:rotate-x-spin"
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Склад
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             У нас всегда доступно к заказу более 10000 наименований товара.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/delivery.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Доставка
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             Доставим товар в любую точку Республики Беларусь в кратчайшие сроки!
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/job.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Опыт работы
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             Большой опыт работы с юридическими лицами, а так же с государственными организациями.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/solution.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Уникальные решения
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             В нашем портфеле есть уникальные решения для организаций.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/low-price.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Низкие цены
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             Оптимальные цены на все оборудование.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/licensing.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Официальные поставки
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             Возможность закупить все необходимое оборудование для офиса у одного поставщика.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/certified.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Гарантия
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             На все наше оборудование предоставляется гарантия, согласно завода изготовителя.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' }}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' }}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/individuality.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
-                        <h4 className="h4__advantages-section_responsive-font">
+                        <h4 className="h4__advantages-section_responsive-font font-medium">
                             Индивидуальный подход
                         </h4>
                         <p className="p__advantages-section_responsive-font">
                             Персональный менеджер для клиента, способный удовлетворить запросы самых требовательных клиентов.
                         </p>
                     </div>
-                    <div className="advantages__section-item" ref={addToRefs} style={{ willChange: 'transform' , width:'100%'}}>
+                    <div className="advantages__section-item p-[25px]" ref={addToRefs} style={{ willChange: 'transform' , width:'100%'}}>
                         <Image src="https://kompunity.by/wp-content/uploads/2023/08/benchmarking.webp"
                             alt="Slide"
                             width={170}
                             height={200}
                             quality={100}
                             sizes="100vw"
-                            className=""
+                            className="pb-[25px]"
                             loading="lazy"
                         />
                         <h4 className="h4__advantages-section_responsive-font">
                             Продвинутая экосистема
                         </h4>
-                        <p className="p__advantages-section_responsive-font">
+                        <p className="p__advantages-section_responsive-font font-medium">
                             Актуально, безопасно
                         </p>
                     </div>

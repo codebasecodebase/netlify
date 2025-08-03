@@ -43,7 +43,9 @@ export default function ReactHookForm() {
     const [confetti, setConfetti] = useState(false);
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
     const formRef = useRef<HTMLFormElement>(null);
-    const viberRef = useRef<HTMLAnchorElement>(null);
+    // Разделенные рефы для десктопной и мобильной версий
+    const viberRefDesktop = useRef<HTMLAnchorElement>(null);
+    const viberRefMobile = useRef<HTMLAnchorElement>(null);
 
     // Эффект для предпросмотра изображений
     useEffect(() => {
@@ -106,11 +108,11 @@ export default function ReactHookForm() {
         }
     }, []);
 
-    // Эффект для анимации Viber
+    // Раздельные эффекты для анимации Viber (десктоп и мобильный)
     useEffect(() => {
-        if (viberRef.current) {
+        if (viberRefDesktop.current) {
             gsap.fromTo(
-                viberRef.current,
+                viberRefDesktop.current,
                 { y: 40, opacity: 0 },
                 {
                     y: 0,
@@ -118,12 +120,12 @@ export default function ReactHookForm() {
                     duration: 1,
                     ease: "power3.out",
                     scrollTrigger: {
-                        trigger: viberRef.current,
+                        trigger: viberRefDesktop.current,
                         start: "top 85%",
                         toggleActions: "play none none reverse"
                     },
                     onComplete: () => {
-                        gsap.to(viberRef.current, {
+                        gsap.to(viberRefDesktop.current, {
                             keyframes: [
                                 { x: -5, rotate: -10, duration: 0.08 },
                                 { x: 5, rotate: 10, duration: 0.08 },
@@ -138,15 +140,49 @@ export default function ReactHookForm() {
                 }
             );
         }
-    }, []);
+    }, [viberRefDesktop]);
 
-    // Эффект для вибрации Viber
+    useEffect(() => {
+        if (viberRefMobile.current) {
+            gsap.fromTo(
+                viberRefMobile.current,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: viberRefMobile.current,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    onComplete: () => {
+                        gsap.to(viberRefMobile.current, {
+                            keyframes: [
+                                { x: -5, rotate: -10, duration: 0.08 },
+                                { x: 5, rotate: 10, duration: 0.08 },
+                                { x: -5, rotate: -10, duration: 0.08 },
+                                { x: 5, rotate: 10, duration: 0.08 },
+                                { x: 0, rotate: 0, duration: 0.08 }
+                            ],
+                            repeat: 2,
+                            ease: "power1.inOut"
+                        });
+                    }
+                }
+            );
+        }
+    }, [viberRefMobile]);
+
+    // Общий эффект для вибрации Viber (работает для обеих версий)
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
-        const vibrate = () => {
-            if (viberRef.current) {
+        
+        const vibrate = (element: HTMLAnchorElement | null) => {
+            if (element) {
                 gsap.fromTo(
-                    viberRef.current,
+                    element,
                     { x: 0, rotate: 0 },
                     {
                         keyframes: [
@@ -161,8 +197,16 @@ export default function ReactHookForm() {
                 );
             }
         };
-        vibrate();
-        intervalId = setInterval(vibrate, 2000);
+        
+        // Вибрация для обоих элементов при первом рендере
+        vibrate(viberRefDesktop.current);
+        vibrate(viberRefMobile.current);
+        
+        intervalId = setInterval(() => {
+            vibrate(viberRefDesktop.current);
+            vibrate(viberRefMobile.current);
+        }, 2000);
+        
         return () => clearInterval(intervalId);
     }, []);
 
@@ -495,7 +539,7 @@ export default function ReactHookForm() {
                                 </li>
                             </ul>
                             <div className="contacat__icon flex justify-center gap-[5px] mt-[10px]">
-                                <a ref={viberRef} href="viber://add?number=375447039707" style={{ willChange: 'transform' }}>
+                                <a ref={viberRefDesktop} href="viber://add?number=375447039707" style={{ willChange: 'transform' }}>
                                     <Image
                                         src={'https://kompunity.by/wp-content/uploads/social_icons/viber_icon.svg'}
                                         alt={`Viber icon`}
@@ -705,7 +749,7 @@ export default function ReactHookForm() {
                         </li>
                     </ul>
                     <div className="contacat__icon flex justify-center gap-[5px] mt-[10px]">
-                        <a ref={viberRef} href="viber://add?number=375447039707" style={{ willChange: 'transform' }}>
+                        <a ref={viberRefMobile} href="viber://add?number=375447039707" style={{ willChange: 'transform' }}>
                             <Image
                                 src={'https://kompunity.by/wp-content/uploads/social_icons/viber_icon.svg'}
                                 alt={`Viber icon`}

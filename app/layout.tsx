@@ -49,7 +49,7 @@ export default function RootLayout({
 
         </main>
 
-        <footer className="flex w-full flex-wrap container justify-between max-[550px]:flex-col">
+        <footer className="flex w-full flex-wrap section__responsive-padding container justify-between max-[550px]:flex-col">
           <div className="w-[30%] max-[900px]:hidden">
             <h3 className="text-[36px] font-bold">
               KOMPUNITY

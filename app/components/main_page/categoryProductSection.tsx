@@ -333,9 +333,9 @@ export default function CategorySection() {
         <section className="section__responsive-padding relative" style={{ background: '#f9f9f9' }}>
             <div className="container text-center">
                 <h2 className="h2__section-title_responsive-font">ОБОРУДОВАНИЕ</h2>
-                <h3 className="h3__section-title_responsive-font">Мы поставляем следующее оборудование</h3>
-                <div className="text-center flex justify-center items-center relative">
-                    <h3 className="h3__section-title_responsive-font mr-[30px] italic font-semibold" style={{ color: '#2f4a99' }}>ТОП ДИСТРИБЬЮТОР БРЕНДА</h3>
+                <h3 className="h3__section-title_responsive-font pb-[25px] font-semibold">Мы поставляем следующее оборудование</h3>
+                <div className="text-center flex justify-center items-center relative max-[1150px]:flex-col max-[1150px]:mt-[15px]">
+                    <h3 className="h3__section-title_responsive-font mr-[30px] italic font-semibold max-[1150px]:mr-[0px]" style={{ color: '#2f4a99' }}>ТОП ДИСТРИБЬЮТОР БРЕНДА</h3>
                     <Image
                         src="https://kompunity.by/wp-content/uploads/2023/08/trassir.png"
                         alt="Slide"
@@ -343,7 +343,7 @@ export default function CategorySection() {
                         height={87}
                         quality={100}
                         sizes="100vw"
-                        className="ml-[20px] z-10"
+                        className="ml-[20px] z-10 max-[1150px]:ml-[0px]"
                         loading="lazy"
                     />
                 </div>

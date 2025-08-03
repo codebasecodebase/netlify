@@ -10,11 +10,30 @@ import PulseRings from './heroSection/pulseRings';
 import NextSection from './heroSection/nextSection';
 
 export default function HeroSection() {
+    function useWindowWidth() {
+        const [width, setWidth] = useState(0); // Начальное значение
+
+        useEffect(() => {
+            // Проверяем, что код выполняется на клиенте
+            if (typeof window !== 'undefined') {
+                setWidth(window.innerWidth);
+
+                const handleResize = () => setWidth(window.innerWidth);
+                window.addEventListener('resize', handleResize);
+
+                return () => window.removeEventListener('resize', handleResize);
+            }
+        }, []);
+
+        return width;
+    }
+    const width = useWindowWidth();
+    const isMobile = width <= 750 && width > 0; // width>0 проверяет инициализацию
 
     return (
-        <section className="relative w-full overflow-hidden" style={{ 
-    height: 'clamp(450px, 45vw, 650px)' 
-  }}>
+        <section className="relative w-full overflow-hidden" style={{
+            height: 'clamp(450px, 45vw, 650px)'
+        }}>
             <Image src="/laptop.avif"
                 alt="Slide 1"
                 fill
@@ -24,14 +43,19 @@ export default function HeroSection() {
                 className="object-cover w-full h-full"
             />
             <div className="pl-[15px] pr-[15px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white flex flex-col items-center justify-center w-[100%] h-[100%]">
-            <h1 className="h1__slider-title_responsive-font  text-7xl font-bold mb-6 text-center whitespace-nowrap" style={{ textShadow: 'rgba(0, 0, 0, 0.49) 2px 2px 5px' }}>СИСТЕМЫ ВИДЕОНАБЛЮДЕНИЯ</h1>
-                <h2 className="h2__slider-title_responsive-font text-7xl mb-14 text-center" 
+                <h1 className="h1__slider-title_responsive-font  text-7xl font-bold mb-6 text-center whitespace-nowrap" style={{ textShadow: 'rgba(0, 0, 0, 0.49) 2px 2px 5px' }}>СИСТЕМЫ ВИДЕОНАБЛЮДЕНИЯ</h1>
+                <h2 className="h2__slider-title_responsive-font text-7xl mb-14 text-center"
                     style={{ textShadow: 'rgba(0, 0, 0, 0.49) 2px 2px 5px' }}>
                     <WavyText text="Компьютерная и офисная техника" delay={2} />
                 </h2>
                 <div className="relative">
-                    <BlobsButton text="Запросить Прайс Лист Или Получить Консультацию" />
-                    <PulseRings/>
+                    <BlobsButton
+                        text={isMobile
+                            ? "Получить консультацию"
+                            : "Запросить Прайс Лист Или Получить Консультацию"
+                        }
+                    />
+                    <PulseRings />
                 </div>
             </div>
             {/*<NextSection/>*/}
