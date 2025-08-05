@@ -578,8 +578,8 @@ export default function ReactHookForm() {
                             </div>
                         </div>
 
-                        <div className="w-full min-[750px]:w-[70%] mt-[20px] flex justify-between">
-                            <div>
+                        <div className="w-full min-[750px]:w-[70%] mt-[20px] flex justify-between max-[500px]:gap-[10px]">
+                            <div className="max-[500px]:flex max-[500px]:flex-col">
                                 <button
                                     type="submit"
                                     className="cursor-pointer p-[20px] rounded-[30px] text-white"
@@ -601,7 +601,7 @@ export default function ReactHookForm() {
                                 {!isFormEmpty && (
                                     <button
                                         type="button"
-                                        className="bg-black p-[20px] rounded-[30px] text-white ml-[10px] cursor-pointer"
+                                        className="bg-black p-[20px] rounded-[30px] text-white ml-[10px] cursor-pointer max-[500px]:ml-[0px] max-[500px]:mt-[10px]"
                                         onClick={() => {
                                             reset();
                                             setFileInputKey(prev => prev + 1);

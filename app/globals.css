@@ -18,6 +18,8 @@
   pointer-events: none;
 }
 
+
+
 /* Убираем индивидуальные задержки */
 @keyframes pulseAnimation {
   0% { 
@@ -96,4 +98,10 @@
 .figure-color:hover::after,
 .figure-color:hover::before {
   transform: scaleX(1);
+}
+
+.moving-grid-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L0 0 0 50' fill='none' stroke='rgba(100,100,100,0.3)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 50px 50px;
+  animation: moveGrid 20s linear infinite;
 }
