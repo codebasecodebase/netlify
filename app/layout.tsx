@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.className}>
       <body>
-        <div className="fixed top-0 left-0 w-full z-50 bg-white">
+        <div className="fixed top-0 left-0 w-full z-50 bg-white" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.16), 0 1px 3px 0 rgba(0, 0, 0, 0.12)' }}>
           <header className="z-50 bg-white container flex items-center justify-between">
             <Link href="/" className="cursor-pointer">
               <Image

@@ -64,20 +64,37 @@ export default function CategorySection() {
         }
 
         const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            const canvas = canvasRefs[index].current;
+            if (!canvas) return;
+            
+            // Check if element is in viewport
+            const rect = canvas.getBoundingClientRect();
+            const isVisible = (
+                rect.top < window.innerHeight && 
+                rect.bottom > 0 &&
+                rect.left < window.innerWidth && 
+                rect.right > 0
+            );
+            
+            if (!isVisible) {
+                stopAnimation(index);
+                return;
+            }
+            
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, displayWidth, displayHeight);
             ctx.font = `${fontSize}px monospace`;
             ctx.fillStyle = '#0f0';
 
             for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
+                const text = frame % 5 === 0 ? letters[Math.floor(Math.random() * letters.length)] : ' ';
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
                 if (drops[i] * fontSize > displayHeight && Math.random() > 0.975) {
                     drops[i] = 0;
                 }
 
-                if (frame % 5 === 0) {
+                if (frame % 20 === 0) {
                     drops[i]++;
                 }
             }
@@ -116,7 +133,27 @@ export default function CategorySection() {
     // Обработчик ресайза
     useEffect(() => {
         let resizeTimeout: NodeJS.Timeout;
-
+        
+        const checkVisibility = () => {
+            for (let i = 0; i < canvasRefs.length; i++) {
+                if (animationIdsRef.current[i] !== null) {
+                    const canvas = canvasRefs[i].current;
+                    if (canvas) {
+                        const rect = canvas.getBoundingClientRect();
+                        const isVisible = (
+                            rect.top < window.innerHeight && 
+                            rect.bottom > 0 &&
+                            rect.left < window.innerWidth && 
+                            rect.right > 0
+                        );
+                        if (!isVisible) {
+                            stopAnimation(i);
+                        }
+                    }
+                }
+            }
+        };
+        
         const handleResize = () => {
             // Временно отключаем GPU оптимизацию
             canvasRefs.forEach(canvasRef => {
@@ -137,9 +174,14 @@ export default function CategorySection() {
         };
 
         window.addEventListener('resize', handleResize);
-
+        window.addEventListener('scroll', checkVisibility);
+        
+        // Initial check
+        checkVisibility();
+        
         return () => {
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', checkVisibility);
             clearTimeout(resizeTimeout);
 
             // Останавливаем все анимации
@@ -393,9 +435,9 @@ export default function CategorySection() {
                                     left: 0,
                                     width: '100%',
                                     height: '100%',
-                                    zIndex: 0,
+                                    zIndex: 1,
                                     pointerEvents: 'none',
-                                    opacity: 0.2,
+                                    opacity: 0.3,
                                     transform: 'translateZ(0)' // Форсируем GPU рендеринг
                                 }}
                             />
