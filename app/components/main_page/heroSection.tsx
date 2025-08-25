@@ -1,5 +1,3 @@
-'use client';
-import React, { useState, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -7,7 +5,6 @@ import Image from 'next/image';
 import BlobsButton from './heroSection/blobsButton';
 import WavyText from './heroSection/waryText';
 import PulseRings from './heroSection/pulseRings';
-import NextSection from './heroSection/nextSection';
 
 export default function HeroSection() {
 
