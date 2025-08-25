@@ -10,25 +10,6 @@ import PulseRings from './heroSection/pulseRings';
 import NextSection from './heroSection/nextSection';
 
 export default function HeroSection() {
-    function useWindowWidth() {
-        const [width, setWidth] = useState(0); // Начальное значение
-
-        useEffect(() => {
-            // Проверяем, что код выполняется на клиенте
-            if (typeof window !== 'undefined') {
-                setWidth(window.innerWidth);
-
-                const handleResize = () => setWidth(window.innerWidth);
-                window.addEventListener('resize', handleResize);
-
-                return () => window.removeEventListener('resize', handleResize);
-            }
-        }, []);
-
-        return width;
-    }
-    const width = useWindowWidth();
-    const isMobile = width <= 750 && width > 0; // width>0 проверяет инициализацию
 
     return (
         <section className="relative w-full overflow-hidden" style={{
@@ -49,13 +30,16 @@ export default function HeroSection() {
                     <WavyText text="Компьютерная и офисная техника" delay={2} />
                 </h2>
                 <div className="relative">
-                    <BlobsButton
-                        text={isMobile
-                            ? "Получить консультацию"
-                            : "Запросить Прайс Лист Или Получить Консультацию"
-                        }
-                    />
-                    <PulseRings />
+                    <span className="full-text">
+                        <BlobsButton text="Запросить Прайс Лист Или Получить Консультацию" />
+                        <PulseRings />
+                    </span>
+
+                    {/* Сокращенный текст для мобильных */}
+                    <span className="short-text">
+                        <BlobsButton text="Получить консультацию" />
+                        <PulseRings />
+                    </span>
                 </div>
             </div>
             {/*<NextSection/>*/}

@@ -39,7 +39,7 @@ export default function AnimatedTriangele() {
         const period = 2000; // Период анимации в мс
         const fixedRects: Rect[] = fixedRectsBase.map((r, i) => ({
             ...r,
-            opacity: 0.3,
+            opacity: 0.1,
             phase: i * (period / num),
         }));
         setRects(fixedRects);

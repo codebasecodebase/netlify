@@ -19,10 +19,12 @@ const imageSources = [
 
 export default function PartnersSlider() {
   const autoplayRef = useRef<any>(null);
+  const sliderContainerRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(true);
   
   // Настройка автовоспроизведения
-   const autoplay = useMemo(() => 
-    Autoplay({ delay: 3000, stopOnInteraction: false, }), 
+  const autoplay = useMemo(() => 
+    Autoplay({ delay: 3000, stopOnInteraction: false }), 
     []
   );
 
@@ -31,12 +33,42 @@ export default function PartnersSlider() {
     [autoplay]
   );
   
-  // Восстановление автовоспроизведения после взаимодействия
+  // Получение экземпляра autoplay и настройка Intersection Observer
   useEffect(() => {
     if (!emblaApi) return;
 
+    // Получаем экземпляр autoplay
+    const autoplayInstance = emblaApi.plugins()?.autoplay;
+    if (autoplayInstance) {
+      autoplayRef.current = autoplayInstance;
+    }
+
+    // Настройка Intersection Observer
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisibleRef.current = entry.isIntersecting;
+      
+      if (entry.isIntersecting) {
+        // Возобновляем автовоспроизведение при появлении в поле зрения
+        if (autoplayRef.current && !autoplayRef.current.isPlaying()) {
+          autoplayRef.current.play();
+        }
+      } else {
+        // Приостанавливаем автовоспроизведение при выходе из поля зрения
+        if (autoplayRef.current && autoplayRef.current.isPlaying()) {
+          autoplayRef.current.stop();
+        }
+      }
+    }, {
+      threshold: 0.1 // Срабатывает при 10% видимости
+    });
+
+    if (sliderContainerRef.current) {
+      observer.observe(sliderContainerRef.current);
+    }
+
+    // Восстановление автовоспроизведения после взаимодействия
     const restartAutoplay = () => {
-      if (autoplayRef.current && !autoplayRef.current.isPlaying()) {
+      if (autoplayRef.current && !autoplayRef.current.isPlaying() && isVisibleRef.current) {
         autoplayRef.current.play();
       }
     };
@@ -44,28 +76,30 @@ export default function PartnersSlider() {
     emblaApi.on('pointerUp', restartAutoplay);
     
     return () => {
+      observer.disconnect();
       emblaApi.off('pointerUp', restartAutoplay);
     };
   }, [emblaApi]);
 
   return (
-    <div className="embla__viewport" ref={emblaRef}>
-      <div className="embla__container flex">
-        {imageSources.map((src, index) => (
-          <div key={index} className="embla__slide">
-            <div className="w-full bg-gray-200 relative rounded-xl overflow-hidden embla-height cursor-grab
-">
-              <Image
-                src={src}
-                alt={`Slide ${index + 1}`}
-                fill
-                className="object-cover select-none"
-                loading="lazy"
-                sizes="100vw"
-              />
+    <div ref={sliderContainerRef}>
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container flex">
+          {imageSources.map((src, index) => (
+            <div key={index} className="embla__slide">
+              <div className="w-full bg-gray-200 relative rounded-xl overflow-hidden embla-height cursor-grab">
+                <Image
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                  fill
+                  className="object-cover select-none"
+                  loading="lazy"
+                  sizes="100vw"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

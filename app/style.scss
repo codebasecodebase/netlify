@@ -112,6 +112,15 @@ canvas {
   }
 }
 
+/* CSS */
+.full-text { display: block; }
+.short-text { display: none; }
+
+@media (max-width: 750px) {
+  .full-text { display: none; }
+  .short-text { display: block; }
+}
+
 .category-image-main {
   width: 100%;
   height: 45vh;

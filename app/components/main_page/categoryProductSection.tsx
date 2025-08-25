@@ -77,6 +77,20 @@ export default function CategorySection() {
             );
             
             if (!isVisible) {
+                // Создаем событие mouseleave
+const mouseLeaveEvent = new MouseEvent('mouseleave', {
+  bubbles: true,
+  cancelable: true,
+  view: window
+});
+
+// Рассылаем событие всем элементам
+document.querySelectorAll('*').forEach(el => {
+  el.dispatchEvent(mouseLeaveEvent);
+});
+
+// Кликаем по целевому элементу
+document.getElementById('hookForm')?.click();
                 stopAnimation(index);
                 return;
             }
