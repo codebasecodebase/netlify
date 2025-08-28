@@ -280,7 +280,7 @@ canvas {
   top: -50%;
   left: 0;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 75%, #ffffff 100%);
-  animation: drop 13s 0s infinite;
+  animation: drop 10s 0s infinite;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
 }
@@ -344,6 +344,14 @@ canvas {
   100% {
     top: 110%;
   }
+}
+
+.lines .line::after {
+    animation-play-state: paused;
+}
+
+.lines.running .line::after {
+    animation-play-state: running;
 }
 
 

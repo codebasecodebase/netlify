@@ -4,9 +4,31 @@ import '../../variables.scss';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useEffect } from 'react';
 
 export default function AdventagesSection() {
+    const linesRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const linesElement = linesRef.current;
+        if (!linesElement) return;
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                linesElement.classList.add('running');
+            } else {
+                linesElement.classList.remove('running');
+            }
+        }, {
+            threshold: 0.01
+        });
+
+        observer.observe(linesElement);
+
+        return () => observer.disconnect();
+    }, []);
+
+
     type GSAPElement = HTMLElement | null;
     // Создаем массив рефов
     // Типизированный массив рефов
@@ -199,7 +221,7 @@ export default function AdventagesSection() {
 
     return (
         <section className="section__responsive-padding relative">
-            <div className="lines">
+            <div ref={linesRef} className="lines">
                 <div className="line"></div>
                 <div className="line"></div>
                 <div className="line"></div>
