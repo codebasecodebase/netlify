@@ -6,6 +6,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useRef, useLayoutEffect, useEffect } from 'react';
 
+import AdvancedTypewriter from './advantagesSection/typeWriter';
+
 export default function AdventagesSection() {
     const linesRef = useRef<HTMLDivElement>(null);
 
@@ -391,6 +393,7 @@ export default function AdventagesSection() {
                     </div>
                 </div>
             </div>
+            <AdvancedTypewriter/>
         </section>
     );
 }
