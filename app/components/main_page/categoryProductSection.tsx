@@ -1,7 +1,12 @@
 'use client';
 import '../../variables.scss';
 import Image from 'next/image';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Регистрируем плагин ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 export default function CategorySection() {
     // Создаем рефы для всех canvas (по количеству блоков)
@@ -14,6 +19,20 @@ export default function CategorySection() {
         width: number;
         height: number;
     } | null>>(Array(12).fill(null));
+
+    // Ref для контейнера категорий
+    const categoriesContainerRef = useRef<HTMLDivElement>(null);
+    
+    // Состояние для отслеживания, была ли иконка активирована
+    const [activatedIcons, setActivatedIcons] = useState<boolean[]>(Array(12).fill(false));
+    
+    // Ref для SVG иконок - исправленный тип
+    const iconRefs = useRef<(SVGSVGElement | null)[]>(Array(12).fill(null));
+
+    // Функция для установки ref
+    const setIconRef = useCallback((index: number) => (el: SVGSVGElement | null) => {
+        iconRefs.current[index] = el;
+    }, []);
 
     // Функция запуска анимации для конкретного индекса
     const startAnimation = useCallback((index: number) => {
@@ -66,35 +85,33 @@ export default function CategorySection() {
         const draw = () => {
             const canvas = canvasRefs[index].current;
             if (!canvas) return;
-            
+
             // Check if element is in viewport
             const rect = canvas.getBoundingClientRect();
             const isVisible = (
-                rect.top < window.innerHeight && 
+                rect.top < window.innerHeight &&
                 rect.bottom > 0 &&
-                rect.left < window.innerWidth && 
+                rect.left < window.innerWidth &&
                 rect.right > 0
             );
-            
+
             if (!isVisible) {
                 // Создаем событие mouseleave
-const mouseLeaveEvent = new MouseEvent('mouseleave', {
-  bubbles: true,
-  cancelable: true,
-  view: window
-});
+                const mouseLeaveEvent = new MouseEvent('mouseleave', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
 
-// Рассылаем событие всем элементам
-document.querySelectorAll('*').forEach(el => {
-  el.dispatchEvent(mouseLeaveEvent);
-});
+                // Рассылаем событие всем элементам
+                document.querySelectorAll('*').forEach(el => {
+                    el.dispatchEvent(mouseLeaveEvent);
+                });
 
-// Кликаем по целевому элементу
-document.getElementById('hookForm')?.click();
                 stopAnimation(index);
                 return;
             }
-            
+
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, displayWidth, displayHeight);
             ctx.font = `${fontSize}px monospace`;
@@ -147,7 +164,7 @@ document.getElementById('hookForm')?.click();
     // Обработчик ресайза
     useEffect(() => {
         let resizeTimeout: NodeJS.Timeout;
-        
+
         const checkVisibility = () => {
             for (let i = 0; i < canvasRefs.length; i++) {
                 if (animationIdsRef.current[i] !== null) {
@@ -155,9 +172,9 @@ document.getElementById('hookForm')?.click();
                     if (canvas) {
                         const rect = canvas.getBoundingClientRect();
                         const isVisible = (
-                            rect.top < window.innerHeight && 
+                            rect.top < window.innerHeight &&
                             rect.bottom > 0 &&
-                            rect.left < window.innerWidth && 
+                            rect.left < window.innerWidth &&
                             rect.right > 0
                         );
                         if (!isVisible) {
@@ -167,7 +184,7 @@ document.getElementById('hookForm')?.click();
                 }
             }
         };
-        
+
         const handleResize = () => {
             // Временно отключаем GPU оптимизацию
             canvasRefs.forEach(canvasRef => {
@@ -189,10 +206,10 @@ document.getElementById('hookForm')?.click();
 
         window.addEventListener('resize', handleResize);
         window.addEventListener('scroll', checkVisibility);
-        
+
         // Initial check
         checkVisibility();
-        
+
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('scroll', checkVisibility);
@@ -212,6 +229,84 @@ document.getElementById('hookForm')?.click();
         };
     }, [startAnimation]);
 
+    // Эффект для анимации появления элементов
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            const elements = gsap.utils.toArray('.category-item');
+            
+            elements.forEach((element: any) => {
+                gsap.fromTo(element,
+                    {
+                        opacity: 0,
+                        y: 50
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 2,
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            // Анимация для SVG иконок
+            const icons = gsap.utils.toArray('.click-icon');
+            icons.forEach((icon: any) => {
+                gsap.fromTo(icon,
+                    {
+                        opacity: 0,
+                        scale: 0.5
+                    },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.8,
+                        delay: 0.5,
+                        scrollTrigger: {
+                            trigger: icon,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+                
+                // Анимация пульсации
+                gsap.to(icon, {
+                    y: -10,
+                    duration: 1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            });
+        }, categoriesContainerRef);
+
+        return () => ctx.revert();
+    }, []);
+
+    // Функция для скрытия иконки при взаимодействии
+    const hideIcon = useCallback((index: number) => {
+        if (activatedIcons[index]) return;
+        
+        const icon = iconRefs.current[index];
+        if (icon) {
+            gsap.to(icon, {
+                opacity: 0,
+                scale: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    const newActivated = [...activatedIcons];
+                    newActivated[index] = true;
+                    setActivatedIcons(newActivated);
+                }
+            });
+        }
+    }, [activatedIcons]);
+
     function isTouchDevice(): boolean {
         if (typeof window === "undefined") return false;
         return (
@@ -224,6 +319,13 @@ document.getElementById('hookForm')?.click();
     // Внутри компонента:
     const activeItemRef = useRef<number | null>(null);
     const handleTouchClick = (index: number, duration: number = 1500) => {
+        // Скрываем иконку при первом клике на мобильном устройстве
+        if (isTouchDevice() && !activatedIcons[index]) {
+            hideIcon(index);
+            activeItemRef.current = index;
+            return;
+        }
+
         if (!isTouchDevice()) {
             smoothScrollToMap(duration);
             return;
@@ -237,7 +339,7 @@ document.getElementById('hookForm')?.click();
             smoothScrollToMap(duration);
             activeItemRef.current = null;
         } else {
-            // Клик на другой элемент - просто меняем активный
+            // Клик на другой элемента - просто меняем активный
             activeItemRef.current = index;
         }
     };
@@ -404,15 +506,20 @@ document.getElementById('hookForm')?.click();
                     />
                 </div>
 
-                <div className="category-section__images" ref={containerRef}>
+                <div className="category-section__images" ref={categoriesContainerRef}>
                     {categories.map((category, index) => (
                         <picture
                             key={index}
-                            className={category.className}
+                            className={`${category.className} category-item`}
                             style={{ position: 'relative' }}
-                            onMouseEnter={() => startAnimation(index)}
+                            onMouseEnter={() => {
+                                startAnimation(index);
+                                // Скрываем иконку при наведении на десктопе
+                                if (!isTouchDevice()) {
+                                    hideIcon(index);
+                                }
+                            }}
                             onMouseLeave={() => stopAnimation(index)}
-                            ref={containerRef}
                         >
                             <Image
                                 src={category.img}
@@ -427,7 +534,6 @@ document.getElementById('hookForm')?.click();
                                 <h4
                                     className="h4__category-section_responsive-font"
                                     onClick={() => handleTouchClick(index, 4000)}
-                                    ref={containerRef}
                                 >
                                     {category.title}
                                 </h4>
@@ -435,7 +541,6 @@ document.getElementById('hookForm')?.click();
                                     <h5
                                         className="h5__category-section_responsive-font"
                                         onClick={() => handleTouchClick(index, 4000)}
-                                        ref={containerRef}
                                     >
                                         {category.subtitle}
                                     </h5>
@@ -455,6 +560,38 @@ document.getElementById('hookForm')?.click();
                                     transform: 'translateZ(0)' // Форсируем GPU рендеринг
                                 }}
                             />
+                            
+                            {/* Анимированная SVG иконка */}
+                            {!activatedIcons[index] && (
+                                <svg 
+                                    ref={setIconRef(index)}
+                                    className="click-icon"
+                                    viewBox="0 0 24 24" 
+                                    width="48" 
+                                    height="48"
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: '20px',
+                                        right: '20px',
+                                        zIndex: 2,
+                                        cursor: 'pointer'
+                                    }}
+                                    onClick={() => {
+                                        if (isTouchDevice()) {
+                                            handleTouchClick(index, 4000);
+                                        }
+                                    }}
+                                >
+                                    <path
+                                        fill="#ffffff"
+                                        d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"
+                                    />
+                                    <path
+                                        fill="#8f0000"
+                                        d="M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10Z"
+                                    />
+                                </svg>
+                            )}
                         </picture>
                     ))}
                 </div>

@@ -21,6 +21,15 @@ canvas {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 }
 
+/* CSS */
+.full-text { display: block; }
+.short-text { display: none; }
+
+@media (max-width: 750px) {
+  .full-text { display: none; }
+  .short-text { display: block; }
+}
+
 .category-section__images {
   display: flex;
   gap: 15px;
@@ -112,13 +121,22 @@ canvas {
   }
 }
 
-/* CSS */
-.full-text { display: block; }
-.short-text { display: none; }
+.click-icon {
+  filter: drop-shadow(0 0 8px rgba(47, 74, 153, 0.7));
+  transition: all 0.3s ease;
+}
 
-@media (max-width: 750px) {
-  .full-text { display: none; }
-  .short-text { display: block; }
+.click-icon:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .click-icon {
+    width: 36px;
+    height: 36px;
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 .category-image-main {
@@ -347,15 +365,20 @@ canvas {
 }
 
 .lines .line::after {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 .lines.running .line::after {
-    animation-play-state: running;
+  animation-play-state: running;
 }
 
 
 @keyframes moveGrid {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50px); }
+  0% {
+    transform: translateY(0);
   }
+
+  100% {
+    transform: translateY(-50px);
+  }
+}
