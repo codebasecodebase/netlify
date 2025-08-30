@@ -269,7 +269,7 @@ export default function CategorySection() {
                         scrollTrigger: {
                             trigger: icon,
                             start: "top 90%",
-                            toggleActions: "play none none none"
+                            toggleActions: "play none none reverse"
                         }
                     }
                 );
