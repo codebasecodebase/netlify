@@ -29,6 +29,11 @@ export default function CategorySection() {
     // Ref для SVG иконок - исправленный тип
     const iconRefs = useRef<(SVGSVGElement | null)[]>(Array(12).fill(null));
 
+    // Ref для хранения твинов анимации иконок
+    const iconTweensRef = useRef<Array<gsap.core.Tween | null>>(Array(12).fill(null));
+    // Ref для хранения IntersectionObserver
+    const iconObserversRef = useRef<Array<IntersectionObserver | null>>(Array(12).fill(null));
+
     // Функция для установки ref
     const setIconRef = useCallback((index: number) => (el: SVGSVGElement | null) => {
         iconRefs.current[index] = el;
@@ -229,6 +234,35 @@ export default function CategorySection() {
         };
     }, [startAnimation]);
 
+    // Эффект для наблюдения за видимостью иконок
+    useEffect(() => {
+        const observers: IntersectionObserver[] = [];
+
+        iconRefs.current.forEach((icon, index) => {
+            if (icon && !activatedIcons[index]) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Возобновляем анимацию при появлении в viewport
+                            iconTweensRef.current[index]?.resume();
+                        } else {
+                            // Приостанавливаем анимацию при скрытии
+                            iconTweensRef.current[index]?.pause();
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(icon);
+                observers.push(observer);
+                iconObserversRef.current[index] = observer;
+            }
+        });
+
+        return () => {
+            observers.forEach(observer => observer.disconnect());
+        };
+    }, [activatedIcons]);
+
     // Эффект для анимации появления элементов
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -255,7 +289,19 @@ export default function CategorySection() {
 
             // Анимация для SVG иконок
             const icons = gsap.utils.toArray('.click-icon');
-            icons.forEach((icon: any) => {
+            icons.forEach((icon: any, index: number) => {
+                // Сохраняем твины для управления
+                const pulseTween = gsap.to(icon, {
+                    y: -10,
+                    duration: 1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    paused: true // Начинаем с приостановленной анимации
+                });
+
+                iconTweensRef.current[index] = pulseTween;
+
                 gsap.fromTo(icon,
                     {
                         opacity: 0,
@@ -269,19 +315,12 @@ export default function CategorySection() {
                         scrollTrigger: {
                             trigger: icon,
                             start: "top 90%",
-                            toggleActions: "play none none reverse"
+                            toggleActions: "play none none reverse",
+                            onEnter: () => pulseTween.play(), // Запускаем пульсацию при появлении
+                            onLeaveBack: () => pulseTween.pause() // Останавливаем при скрытии
                         }
                     }
                 );
-                
-                // Анимация пульсации
-                gsap.to(icon, {
-                    y: -10,
-                    duration: 1,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
             });
         }, categoriesContainerRef);
 
@@ -291,6 +330,9 @@ export default function CategorySection() {
     // Функция для скрытия иконки при взаимодействии
     const hideIcon = useCallback((index: number) => {
         if (activatedIcons[index]) return;
+        
+        // Останавливаем анимацию пульсации
+        iconTweensRef.current[index]?.pause();
         
         const icon = iconRefs.current[index];
         if (icon) {
@@ -302,6 +344,12 @@ export default function CategorySection() {
                     const newActivated = [...activatedIcons];
                     newActivated[index] = true;
                     setActivatedIcons(newActivated);
+                    
+                    // Отключаем observer
+                    if (iconObserversRef.current[index]) {
+                        iconObserversRef.current[index]?.disconnect();
+                        iconObserversRef.current[index] = null;
+                    }
                 }
             });
         }
@@ -480,7 +528,7 @@ export default function CategorySection() {
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/zkteco.jpg",
             title: "Турникеты TRASSIR, ZKTeco",
-            subtitle: "(Серия Green Label) (Биометрическая идентификация) (Контроль доступа) (Умный офис)",
+            subtitle: "(Серия Green Label) (Биометрическая идентификация) (Контроль доaccess) (Умный офис)",
             className: "category-image-row-bottom",
             width: 727,
             height: 370
