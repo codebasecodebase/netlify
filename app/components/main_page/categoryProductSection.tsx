@@ -5,11 +5,9 @@ import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Регистрируем плагин ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CategorySection() {
-    // Создаем рефы для всех canvas (по количеству блоков)
     const canvasRefs = Array.from({ length: 12 }, () => useRef<HTMLCanvasElement>(null));
     const animationIdsRef = useRef<Array<number | null>>(Array(12).fill(null));
     const animationDataRef = useRef<Array<{
@@ -20,157 +18,152 @@ export default function CategorySection() {
         height: number;
     } | null>>(Array(12).fill(null));
 
-    // Ref для контейнера категорий
     const categoriesContainerRef = useRef<HTMLDivElement>(null);
-    
-    // Состояние для отслеживания, была ли иконка активирована
     const [activatedIcons, setActivatedIcons] = useState<boolean[]>(Array(12).fill(false));
-    
-    // Ref для SVG иконок - исправленный тип
     const iconRefs = useRef<(SVGSVGElement | null)[]>(Array(12).fill(null));
-
-    // Ref для хранения твинов анимации иконок
     const iconTweensRef = useRef<Array<gsap.core.Tween | null>>(Array(12).fill(null));
-    // Ref для хранения IntersectionObserver
     const iconObserversRef = useRef<Array<IntersectionObserver | null>>(Array(12).fill(null));
+    const activeItemRef = useRef<number | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const scrollAnimationFrameRef = useRef<number | null>(null);
+    const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const rafActiveRef = useRef<boolean>(true);
 
-    // Функция для установки ref
     const setIconRef = useCallback((index: number) => (el: SVGSVGElement | null) => {
         iconRefs.current[index] = el;
     }, []);
 
-    // Функция запуска анимации для конкретного индекса
+    const isTouchDevice = useCallback((): boolean => {
+        if (typeof window === "undefined") return false;
+        return (
+            'ontouchstart' in window ||
+            navigator.maxTouchPoints > 0 ||
+            window.matchMedia('(pointer: coarse)').matches
+        );
+    }, []);
+
     const startAnimation = useCallback((index: number) => {
+        if (!rafActiveRef.current) return;
+        
         const canvas = canvasRefs[index].current;
         if (!canvas) return;
 
-        // Активируем GPU оптимизацию
         canvas.style.willChange = 'transform';
 
         const container = canvas.parentElement;
         if (!container) return;
 
-        // Получаем размеры контейнера
         const displayWidth = container.clientWidth;
         const displayHeight = container.clientHeight;
 
-        // Устанавливаем размеры canvas
         canvas.width = displayWidth;
         canvas.height = displayHeight;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // Параметры анимации
         const letters = 'АァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ'.repeat(6).split('');
         const fontSize = 18;
         const columns = Math.floor(displayWidth / fontSize);
 
-        // Используем существующие данные или создаем новые
         let drops: number[];
         let frame = 0;
 
         if (animationDataRef.current[index]) {
-            // Восстанавливаем из сохраненных данных
             drops = animationDataRef.current[index]!.drops;
             frame = animationDataRef.current[index]!.frame;
         } else {
-            // Создаем новые данные
             drops = Array.from(
                 { length: columns },
                 () => Math.random() * displayHeight / fontSize
             );
         }
 
-        // Останавливаем предыдущую анимацию, если была
         if (animationIdsRef.current[index] !== null) {
             cancelAnimationFrame(animationIdsRef.current[index]!);
         }
 
-        const draw = () => {
-            const canvas = canvasRefs[index].current;
-            if (!canvas) return;
+        const targetFps = isTouchDevice() ? 20 : 30;
+        const interval = 1000 / targetFps;
+        let lastTime = 0;
 
-            // Check if element is in viewport
-            const rect = canvas.getBoundingClientRect();
-            const isVisible = (
-                rect.top < window.innerHeight &&
-                rect.bottom > 0 &&
-                rect.left < window.innerWidth &&
-                rect.right > 0
-            );
-
-            if (!isVisible) {
-                // Создаем событие mouseleave
-                const mouseLeaveEvent = new MouseEvent('mouseleave', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                });
-
-                // Рассылаем событие всем элементам
-                document.querySelectorAll('*').forEach(el => {
-                    el.dispatchEvent(mouseLeaveEvent);
-                });
-
+        const draw = (currentTime: number) => {
+            if (!rafActiveRef.current || !canvas.isConnected) {
                 stopAnimation(index);
                 return;
             }
 
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, displayWidth, displayHeight);
-            ctx.font = `${fontSize}px monospace`;
-            ctx.fillStyle = '#0f0';
+            const elapsed = currentTime - lastTime;
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = frame % 5 === 0 ? letters[Math.floor(Math.random() * letters.length)] : ' ';
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (elapsed > interval) {
+                lastTime = currentTime - (elapsed % interval);
 
-                if (drops[i] * fontSize > displayHeight && Math.random() > 0.975) {
-                    drops[i] = 0;
+                const rect = canvas.getBoundingClientRect();
+                const isVisible = (
+                    rect.top < window.innerHeight &&
+                    rect.bottom > 0 &&
+                    rect.left < window.innerWidth &&
+                    rect.right > 0
+                );
+
+                if (!isVisible) {
+                    stopAnimation(index);
+                    return;
                 }
 
-                if (frame % 20 === 0) {
-                    drops[i]++;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, displayWidth, displayHeight);
+                ctx.font = `${fontSize}px monospace`;
+                ctx.fillStyle = '#0f0';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = frame % 5 === 0 ? letters[Math.floor(Math.random() * letters.length)] : ' ';
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > displayHeight && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+
+                    if (frame % 20 === 0) {
+                        drops[i]++;
+                    }
                 }
+
+                frame++;
+
+                animationDataRef.current[index] = {
+                    drops,
+                    frame,
+                    columns,
+                    width: displayWidth,
+                    height: displayHeight
+                };
             }
-
-            frame++;
-
-            // Сохраняем состояние анимации
-            animationDataRef.current[index] = {
-                drops,
-                frame,
-                columns,
-                width: displayWidth,
-                height: displayHeight
-            };
 
             animationIdsRef.current[index] = requestAnimationFrame(draw);
         };
 
         animationIdsRef.current[index] = requestAnimationFrame(draw);
-    }, []);
+    }, [isTouchDevice]);
 
-    // Функция остановки анимации
     const stopAnimation = useCallback((index: number) => {
         if (animationIdsRef.current[index] !== null) {
             cancelAnimationFrame(animationIdsRef.current[index]!);
             animationIdsRef.current[index] = null;
         }
 
-        // Деактивируем GPU оптимизацию
         const canvas = canvasRefs[index].current;
         if (canvas) {
             canvas.style.willChange = 'auto';
         }
     }, []);
 
-    // Обработчик ресайза
     useEffect(() => {
-        let resizeTimeout: NodeJS.Timeout;
-
+        rafActiveRef.current = true;
+        
         const checkVisibility = () => {
+            if (!rafActiveRef.current) return;
+            
             for (let i = 0; i < canvasRefs.length; i++) {
                 if (animationIdsRef.current[i] !== null) {
                     const canvas = canvasRefs[i].current;
@@ -191,16 +184,17 @@ export default function CategorySection() {
         };
 
         const handleResize = () => {
-            // Временно отключаем GPU оптимизацию
             canvasRefs.forEach(canvasRef => {
                 if (canvasRef.current) {
                     canvasRef.current.style.willChange = 'auto';
                 }
             });
 
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // Перезапускаем активные анимации
+            if (resizeTimeoutRef.current) {
+                clearTimeout(resizeTimeoutRef.current);
+            }
+
+            resizeTimeoutRef.current = setTimeout(() => {
                 for (let i = 0; i < canvasRefs.length; i++) {
                     if (animationIdsRef.current[i] !== null) {
                         startAnimation(i);
@@ -209,32 +203,24 @@ export default function CategorySection() {
             }, 100);
         };
 
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('scroll', checkVisibility);
-
-        // Initial check
-        checkVisibility();
+        window.addEventListener('resize', handleResize, { passive: true });
+        window.addEventListener('scroll', checkVisibility, { passive: true });
 
         return () => {
+            rafActiveRef.current = false;
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('scroll', checkVisibility);
-            clearTimeout(resizeTimeout);
+            
+            if (resizeTimeoutRef.current) {
+                clearTimeout(resizeTimeoutRef.current);
+            }
 
-            // Останавливаем все анимации
             for (let i = 0; i < canvasRefs.length; i++) {
-                if (animationIdsRef.current[i] !== null) {
-                    cancelAnimationFrame(animationIdsRef.current[i]!);
-                }
-                // Сбрасываем GPU оптимизацию
-                const canvas = canvasRefs[i].current;
-                if (canvas) {
-                    canvas.style.willChange = 'auto';
-                }
+                stopAnimation(i);
             }
         };
-    }, [startAnimation]);
+    }, [startAnimation, stopAnimation]);
 
-    // Эффект для наблюдения за видимостью иконок
     useEffect(() => {
         const observers: IntersectionObserver[] = [];
 
@@ -243,10 +229,8 @@ export default function CategorySection() {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            // Возобновляем анимацию при появлении в viewport
                             iconTweensRef.current[index]?.resume();
                         } else {
-                            // Приостанавливаем анимацию при скрытии
                             iconTweensRef.current[index]?.pause();
                         }
                     });
@@ -263,61 +247,51 @@ export default function CategorySection() {
         };
     }, [activatedIcons]);
 
-    // Эффект для анимации появления элементов
     useEffect(() => {
         const ctx = gsap.context(() => {
-            const elements = gsap.utils.toArray('.category-item');
-            
-            elements.forEach((element: any) => {
+            gsap.utils.toArray('.category-item').forEach((element: any) => {
                 gsap.fromTo(element,
-                    {
-                        opacity: 0,
-                        y: 50
-                    },
+                    { opacity: 0, y: 50 },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 2,
+                        duration: 1.5,
+                        ease: "power2.out",
                         scrollTrigger: {
                             trigger: element,
-                            start: "top 80%",
-                            toggleActions: "play none none none"
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                            markers: false
                         }
                     }
                 );
             });
 
-            // Анимация для SVG иконок
-            const icons = gsap.utils.toArray('.click-icon');
-            icons.forEach((icon: any, index: number) => {
-                // Сохраняем твины для управления
+            gsap.utils.toArray('.click-icon').forEach((icon: any, index: number) => {
                 const pulseTween = gsap.to(icon, {
-                    y: -10,
-                    duration: 1,
+                    y: -8,
+                    duration: 1.2,
                     repeat: -1,
                     yoyo: true,
                     ease: "sine.inOut",
-                    paused: true // Начинаем с приостановленной анимации
+                    paused: true
                 });
 
                 iconTweensRef.current[index] = pulseTween;
 
                 gsap.fromTo(icon,
-                    {
-                        opacity: 0,
-                        scale: 0.5
-                    },
+                    { opacity: 0, scale: 0.5 },
                     {
                         opacity: 1,
                         scale: 1,
-                        duration: 0.8,
-                        delay: 0.5,
+                        duration: 0.6,
+                        delay: 0.3,
                         scrollTrigger: {
                             trigger: icon,
                             start: "top 90%",
                             toggleActions: "play none none reverse",
-                            onEnter: () => pulseTween.play(), // Запускаем пульсацию при появлении
-                            onLeaveBack: () => pulseTween.pause() // Останавливаем при скрытии
+                            onEnter: () => pulseTween.play(),
+                            onLeaveBack: () => pulseTween.pause()
                         }
                     }
                 );
@@ -327,11 +301,9 @@ export default function CategorySection() {
         return () => ctx.revert();
     }, []);
 
-    // Функция для скрытия иконки при взаимодействии
     const hideIcon = useCallback((index: number) => {
         if (activatedIcons[index]) return;
         
-        // Останавливаем анимацию пульсации
         iconTweensRef.current[index]?.pause();
         
         const icon = iconRefs.current[index];
@@ -339,13 +311,14 @@ export default function CategorySection() {
             gsap.to(icon, {
                 opacity: 0,
                 scale: 0,
-                duration: 0.5,
+                duration: 0.4,
                 onComplete: () => {
-                    const newActivated = [...activatedIcons];
-                    newActivated[index] = true;
-                    setActivatedIcons(newActivated);
+                    setActivatedIcons(prev => {
+                        const newActivated = [...prev];
+                        newActivated[index] = true;
+                        return newActivated;
+                    });
                     
-                    // Отключаем observer
                     if (iconObserversRef.current[index]) {
                         iconObserversRef.current[index]?.disconnect();
                         iconObserversRef.current[index] = null;
@@ -355,19 +328,7 @@ export default function CategorySection() {
         }
     }, [activatedIcons]);
 
-    function isTouchDevice(): boolean {
-        if (typeof window === "undefined") return false;
-        return (
-            'ontouchstart' in window ||
-            navigator.maxTouchPoints > 0 ||
-            window.matchMedia('(pointer: coarse)').matches
-        );
-    };
-
-    // Внутри компонента:
-    const activeItemRef = useRef<number | null>(null);
     const handleTouchClick = (index: number, duration: number = 1500) => {
-        // Скрываем иконку при первом клике на мобильном устройстве
         if (isTouchDevice() && !activatedIcons[index]) {
             hideIcon(index);
             activeItemRef.current = index;
@@ -380,62 +341,55 @@ export default function CategorySection() {
         }
 
         if (activeItemRef.current === null) {
-            // Первый клик - активируем элемент
             activeItemRef.current = index;
         } else if (activeItemRef.current === index) {
-            // Второй клик на тот же элемент - скроллим
             smoothScrollToMap(duration);
             activeItemRef.current = null;
         } else {
-            // Клик на другой элемента - просто меняем активный
             activeItemRef.current = index;
         }
     };
 
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleDocumentClick = (e: MouseEvent) => {
-            if (containerRef.current &&
-                !containerRef.current.contains(e.target as Node)) {
-                activeItemRef.current = null;
-            }
-        };
-
-        document.addEventListener('click', handleDocumentClick);
-
-        return () => {
-            document.removeEventListener('click', handleDocumentClick);
-        };
-    }, []);
-
-    function smoothScrollToMap(duration: number = 1500): void {
+    const smoothScrollToMap = useCallback((duration: number = 1500): void => {
         const target = document.getElementById('hookForm');
         if (!target) return;
+
+        if (scrollAnimationFrameRef.current) {
+            cancelAnimationFrame(scrollAnimationFrameRef.current);
+        }
+
         const start = window.scrollY;
         const end = target.getBoundingClientRect().top + window.scrollY;
         const change = end - start;
         const startTime = performance.now();
 
-        function easeInOutCubic(t: number): number {
-            return t < 0.5
-                ? 4 * t * t * t
-                : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        }
-
-        function animateScroll(currentTime: number): void {
+        const animateScroll = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const easedProgress = easeInOutCubic(progress);
-            window.scrollTo(0, start + change * easedProgress);
+            const ease = (t: number) => t * (2 - t);
+            window.scrollTo(0, start + change * ease(progress));
+            
             if (progress < 1) {
-                requestAnimationFrame(animateScroll);
+                scrollAnimationFrameRef.current = requestAnimationFrame(animateScroll);
+            } else {
+                scrollAnimationFrameRef.current = null;
             }
-        }
-        requestAnimationFrame(animateScroll);
-    }
+        };
 
-    // Данные для блоков
+        scrollAnimationFrameRef.current = requestAnimationFrame(animateScroll);
+    }, []);
+
+    useEffect(() => {
+        const handleDocumentClick = (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                activeItemRef.current = null;
+            }
+        };
+
+        document.addEventListener('click', handleDocumentClick);
+        return () => document.removeEventListener('click', handleDocumentClick);
+    }, []);
+
     const categories = [
         {
             img: "https://kompunity.by/wp-content/uploads/2023/07/camera.jpg",
@@ -561,13 +515,13 @@ export default function CategorySection() {
                             className={`${category.className} category-item`}
                             style={{ position: 'relative' }}
                             onMouseEnter={() => {
-                                startAnimation(index);
-                                // Скрываем иконку при наведении на десктопе
                                 if (!isTouchDevice()) {
+                                    startAnimation(index);
                                     hideIcon(index);
                                 }
                             }}
-                            onMouseLeave={() => stopAnimation(index)}
+                            onMouseLeave={() => !isTouchDevice() && stopAnimation(index)}
+                            onClick={() => handleTouchClick(index, 4000)}
                         >
                             <Image
                                 src={category.img}
@@ -579,17 +533,11 @@ export default function CategorySection() {
                                 loading="lazy"
                             />
                             <div className='category-text select-none'>
-                                <h4
-                                    className="h4__category-section_responsive-font"
-                                    onClick={() => handleTouchClick(index, 4000)}
-                                >
+                                <h4 className="h4__category-section_responsive-font">
                                     {category.title}
                                 </h4>
                                 {category.subtitle && (
-                                    <h5
-                                        className="h5__category-section_responsive-font"
-                                        onClick={() => handleTouchClick(index, 4000)}
-                                    >
+                                    <h5 className="h5__category-section_responsive-font">
                                         {category.subtitle}
                                     </h5>
                                 )}
@@ -605,11 +553,10 @@ export default function CategorySection() {
                                     zIndex: 1,
                                     pointerEvents: 'none',
                                     opacity: 0.3,
-                                    transform: 'translateZ(0)' // Форсируем GPU рендеринг
+                                    transform: 'translateZ(0)'
                                 }}
                             />
                             
-                            {/* Анимированная SVG иконка */}
                             {!activatedIcons[index] && (
                                 <svg 
                                     ref={setIconRef(index)}
