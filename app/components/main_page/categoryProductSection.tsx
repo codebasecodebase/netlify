@@ -624,11 +624,6 @@ export default function CategorySection() {
                                         zIndex: 2,
                                         cursor: 'pointer'
                                     }}
-                                    onClick={() => {
-                                        if (isTouchDevice()) {
-                                            handleTouchClick(index, 4000);
-                                        }
-                                    }}
                                 >
                                     <path
                                         fill="#ffffff"

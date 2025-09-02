@@ -30,6 +30,14 @@ canvas {
   .short-text { display: block; }
 }
 
+.category-section__images picture{
+  opacity: 0;
+}
+
+.click-icon{
+  opacity: 0;
+}
+
 .category-section__images {
   display: flex;
   gap: 15px;
